@@ -77,7 +77,7 @@ export default function MinhasSolicitacoes() {
             valor: f,
             rotulo: ROTULO_ABA[f],
             contagem: contagem(f),
-            destaque: f === 'REJEITADO',
+            cor: f === 'REJEITADO' ? 'bg-perigo' : undefined,
           }))}
         />
       </div>

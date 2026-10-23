@@ -10,6 +10,13 @@ import { useAcoes } from '../solicitacoes/useAcoes';
 
 // ----------------------------------------------------------------------
 
+const COR_CONTADOR: Record<Exclude<Status, 'RASCUNHO'>, string> = {
+  AGUARDANDO: 'bg-alerta',
+  APROVADO: 'bg-ok',
+  REJEITADO: 'bg-perigo',
+  CANCELADO: 'bg-[#999]',
+};
+
 const ABAS: { valor: Exclude<Status, 'RASCUNHO'>; rotulo: string }[] = [
   { valor: 'AGUARDANDO', rotulo: 'Aguardando' },
   { valor: 'APROVADO', rotulo: 'Aprovados' },
@@ -49,7 +56,7 @@ export default function Fila() {
           itens={ABAS.map((a) => ({
             ...a,
             contagem: lista.dados?.contagem[a.valor],
-            destaque: a.valor === 'AGUARDANDO',
+            cor: COR_CONTADOR[a.valor],
           }))}
         />
       </div>

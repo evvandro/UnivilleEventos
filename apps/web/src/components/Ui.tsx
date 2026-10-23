@@ -98,7 +98,7 @@ export function Abas<T extends string>({
   onChange,
   rotuloAcessivel,
 }: {
-  itens: { valor: T; rotulo: string; contagem?: number; destaque?: boolean }[];
+  itens: { valor: T; rotulo: string; contagem?: number; cor?: string }[];
   ativo: T;
   onChange: (v: T) => void;
   rotuloAcessivel: string;
@@ -124,7 +124,7 @@ export function Abas<T extends string>({
             {i.contagem !== undefined && (
               <span
                 className={`ml-1.5 rounded-full px-1.5 py-px text-[11px] font-bold text-white ${
-                  i.destaque && i.contagem > 0 ? 'bg-perigo' : 'bg-[#999]'
+                  i.cor && i.contagem > 0 ? i.cor : 'bg-[#999]'
                 }`}
               >
                 {i.contagem}
