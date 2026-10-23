@@ -63,7 +63,7 @@ export default function AgendaImpressao() {
       </div>
 
       <article className="mx-auto max-w-[1100px] bg-white shadow-[0_1px_6px_rgba(0,0,0,.15)] print:max-w-none print:shadow-none">
-        <header className="bg-[#2f6b3a] px-6 py-4 text-center text-white [print-color-adjust:exact]">
+        <header className="bg-uni px-6 py-4 text-center text-white [print-color-adjust:exact]">
           <h1 className="text-[24px] leading-tight font-bold">Agenda de eventos</h1>
           <p className="text-[20px] leading-tight font-bold">Univille campus São Bento do Sul</p>
           <p className="mt-1 text-[14px] opacity-95">{periodo(de, ate)}</p>

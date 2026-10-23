@@ -38,6 +38,14 @@ const MENSAGENS_FASTIFY: Record<string, string> = {
   FST_ERR_CTP_INVALID_MEDIA_TYPE: 'Tipo de conteúdo não suportado. Envie application/json.',
 };
 
+/** Nome amigável dos campos com restrição de unicidade. */
+const ROTULO_CAMPO_UNICO: Record<string, string> = {
+  matricula: 'esta matrícula',
+  email: 'este e-mail',
+  nome: 'este nome',
+  codigo: 'este código',
+};
+
 export function registrarTratamentoDeErros(app: FastifyInstance) {
   app.setErrorHandler((erro, req, reply) => {
     if (erro instanceof AppError) {
@@ -50,7 +58,16 @@ export function registrarTratamentoDeErros(app: FastifyInstance) {
     }
     if (erro instanceof Prisma.PrismaClientKnownRequestError) {
       if (erro.code === 'P2002') {
-        return reply.status(409).send({ message: 'Já existe um registro com esse valor.' });
+        // Aponta qual campo único repetiu (ex.: matrícula ou e-mail), para o formulário destacar.
+        const alvo = (erro.meta?.target as string[] | string | undefined) ?? [];
+        const campo = (Array.isArray(alvo) ? alvo : [alvo])[0];
+        const rotulo = campo ? (ROTULO_CAMPO_UNICO[campo] ?? campo) : undefined;
+        const message = rotulo
+          ? `Já existe um cadastro com ${rotulo}.`
+          : 'Já existe um registro com esse valor.';
+        return reply
+          .status(409)
+          .send({ message, campos: campo ? { [campo]: message } : undefined });
       }
       if (erro.code === 'P2003' || erro.code === 'P2014') {
         return reply.status(409).send({

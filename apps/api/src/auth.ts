@@ -26,6 +26,11 @@ export async function registrarAuth(app: FastifyInstance) {
   if (!secret || secret.length < 16) {
     throw new Error('Defina JWT_SECRET (mínimo de 16 caracteres) no ambiente.');
   }
+  // Em produção, não aceita o valor de exemplo do repositório (público) nem segredos curtos:
+  // quem conhece o segredo consegue forjar uma sessão de administrador.
+  if (process.env.NODE_ENV === 'production' && (secret.length < 32 || /troque/i.test(secret))) {
+    throw new Error('JWT_SECRET de produção inválido: gere um com "openssl rand -hex 32".');
+  }
   await app.register(cookie);
   await app.register(jwt, { secret, cookie: { cookieName: COOKIE, signed: false } });
 }

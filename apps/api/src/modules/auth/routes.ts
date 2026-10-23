@@ -28,7 +28,7 @@ export async function authRoutes(app: FastifyInstance) {
       tentativas.registrarErro(req.ip, matricula);
       throw new AppError(401, 'Matrícula ou senha incorretas.');
     }
-    if (!u.ativo) throw new AppError(403, 'Usuário desativado. Procure o setor de Eventos.');
+    if (!u.ativo) throw new AppError(403, 'Usuário desativado. Procure a administração.');
     tentativas.registrarSucesso(req.ip, matricula);
     const sessao = {
       id: u.id,

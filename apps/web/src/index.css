@@ -1,18 +1,26 @@
 @import 'tailwindcss';
 
-/* Identidade Enturma/Univille (ver CLAUDE.md) */
+/*
+ * Identidade Univille, conforme o manual da marca (cmarcauniville.com):
+ * primárias verde escuro #005F36 (Pantone 3425 C), verde claro #82C55B (Pantone 376 C),
+ * branco e areia #E3E1DA (Pantone 663 C). Fonte institucional Proxima Nova; o manual
+ * autoriza Arial em meios digitais quando ela não estiver disponível.
+ * O azul dos botões vem do sistema Enturma (decisão da equipe).
+ */
 @theme {
-  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --color-uni: #00562b;
-  --color-uni-escuro: #003f1f;
+  --font-sans: 'Proxima Nova', Arial, Helvetica, sans-serif;
+  --color-uni: #005f36;
+  --color-uni-escuro: #004427;
   --color-uni-claro: #e6f0ea;
+  --color-verde-claro: #82c55b;
+  --color-areia: #e3e1da;
   --color-azul: #347bb7;
   --color-azul-borda: #2e6da4;
   --color-azul-escuro: #286090;
   --color-link: #337ab7;
   --color-campo: #e9f0fe;
   --color-campo-borda: #a6a7b1;
-  --color-fundo: #ecebe8;
+  --color-fundo: #e3e1da;
   --color-linha: #dddddd;
   --color-texto: #333333;
   --color-suave: #767676;
@@ -54,7 +62,7 @@
   }
   /* Marca Univille (PNG branco) recolorida em verde para fundos claros. */
   .logo-verde {
-    @apply inline-block bg-[#2f6b3a] [print-color-adjust:exact];
+    @apply inline-block bg-uni [print-color-adjust:exact];
     mask: url('/logo-univille.png') center / contain no-repeat;
   }
   .tabela {

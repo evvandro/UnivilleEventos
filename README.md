@@ -78,9 +78,9 @@ O acesso é feito com **matrícula + senha**.
 | Matrícula  | Senha    | Usuário                          |
 | ---------- | -------- | -------------------------------- |
 | 2026000001 | admin123 | Setor de Eventos (administrador) |
-| 2026000002 | senha123 | Ana Medeiros Felix(solicitante)  |
-| 2026000003 | senha123 | Carlos Prado Lima(solicitante)   |
-| 2026000004 | senha123 | Bruno Tschoeke Dias(desativado)  |
+| 2026000002 | senha123 | Ana Medeiros Felix (solicitante) |
+| 2026000003 | senha123 | Carlos Prado Lima (solicitante)  |
+| 2026000004 | senha123 | Bruno Tschoeke Dias (desativado) |
 
 Todos os dados são fictícios.
 

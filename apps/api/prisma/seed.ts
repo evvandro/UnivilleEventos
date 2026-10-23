@@ -8,6 +8,15 @@ import bcrypt from 'bcryptjs';
 import { existsSync } from 'node:fs';
 
 if (existsSync('.env')) process.loadEnvFile('.env');
+
+// O seed APAGA todos os dados. Em produção só roda se pedido explicitamente.
+if (process.env.NODE_ENV === 'production' && process.env.SEED_FORCAR !== 'sim') {
+  console.error(
+    'Seed bloqueado em produção: ele apaga todos os dados. Para rodar mesmo assim, defina SEED_FORCAR=sim.',
+  );
+  process.exit(1);
+}
+
 const db = new PrismaClient();
 
 const hoje = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
@@ -35,7 +44,7 @@ async function main() {
   });
   const ana = await db.usuario.create({
     data: {
-      nome: 'Ana Souza',
+      nome: 'Ana Medeiros Felix',
       matricula: '2026000002',
       email: 'ana.souza@univille.test',
       senhaHash: await hash('senha123'),
@@ -44,7 +53,7 @@ async function main() {
   });
   const carlos = await db.usuario.create({
     data: {
-      nome: 'Carlos Lima',
+      nome: 'Carlos Prado Lima',
       matricula: '2026000003',
       email: 'carlos.lima@univille.test',
       senhaHash: await hash('senha123'),
@@ -53,7 +62,7 @@ async function main() {
   });
   await db.usuario.create({
     data: {
-      nome: 'Bruno Antigo (desativado)',
+      nome: 'Bruno Tschoeke Dias',
       matricula: '2026000004',
       email: 'bruno@univille.test',
       senhaHash: await hash('senha123'),
@@ -136,7 +145,7 @@ async function main() {
       fim: '22:00',
       local: 'Auditório A',
       curso: 'Engenharia de Software',
-      palestrante: 'Dra. Helena Prado',
+      palestrante: 'Dra. Helena do Prado',
       recursos: ['Projetor', 'Som', 'Microfone'],
     },
     {
@@ -149,7 +158,7 @@ async function main() {
       fim: '16:00',
       local: 'Miniauditório',
       curso: 'Design',
-      palestrante: 'Carlos Wendt',
+      palestrante: 'Rafael Dias',
       recursos: ['Projetor'],
     },
     {
@@ -174,7 +183,7 @@ async function main() {
       fim: '20:00',
       local: 'Lab. 105',
       curso: 'Sistemas de Informação',
-      palestrante: 'Marina Kühn',
+      palestrante: 'Marina Tschoeke',
       recursos: ['Projetor', 'Notebook'],
     },
     {
@@ -187,7 +196,7 @@ async function main() {
       fim: '11:30',
       local: 'Sala 213',
       curso: 'Sistemas de Informação',
-      palestrante: 'Júlia Becker',
+      palestrante: 'Júlia Medeiros',
     },
     {
       nome: 'Feira de Profissões',
@@ -251,7 +260,7 @@ async function main() {
       fim: '22:00',
       local: 'Lab. 105',
       curso: 'Engenharia de Software',
-      palestrante: 'Prof. Ana Souza',
+      palestrante: 'Prof. Ana Medeiros Felix',
       motivo:
         'O Lab. 105 está reservado para manutenção até as 20h nesse dia. Ajuste o horário para começar às 20h ou escolha outro local.',
     },
@@ -293,8 +302,8 @@ async function main() {
         solicitanteNome: d.incompleto
           ? null
           : d.autor === ana.id
-            ? 'Prof. Ana Souza'
-            : 'Coord. Carlos Lima',
+            ? 'Prof. Ana Medeiros Felix'
+            : 'Coord. Carlos Prado Lima',
         palestrante: d.palestrante ?? null,
         publicoAlvo: d.incompleto ? null : 'Alunos de graduação e comunidade acadêmica',
         justificativa: d.incompleto
@@ -329,9 +338,9 @@ async function main() {
 
   console.log('Seed concluído. Usuários de teste (fictícios), login por matrícula:');
   console.log('  2026000001 / admin123  Setor de Eventos (Administrador)');
-  console.log('  2026000002 / senha123  Ana Souza (Solicitante)');
-  console.log('  2026000003 / senha123  Carlos Lima (Solicitante)');
-  console.log('  2026000004 / senha123  Bruno (desativado)');
+  console.log('  2026000002 / senha123  Ana Medeiros Felix (Solicitante)');
+  console.log('  2026000003 / senha123  Carlos Prado Lima (Solicitante)');
+  console.log('  2026000004 / senha123  Bruno Tschoeke Dias (desativado)');
 }
 
 main()

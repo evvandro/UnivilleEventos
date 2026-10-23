@@ -90,6 +90,8 @@ function Editor({ opcoes, s }: { opcoes: OpcoesDTO; s: SolicitacaoDTO | null }) 
   const topo = useRef<HTMLDivElement>(null);
   /** Id do rascunho criado nesta tela: se o envio falhar, as tentativas seguintes editam o mesmo registro. */
   const criadoId = useRef<number | null>(null);
+  /** Versão (atualizadoEm) sobre a qual esta tela está editando; a API recusa se outra pessoa salvou antes. */
+  const versao = useRef<string | null>(s?.atualizadoEm ?? null);
   const { pedir, modal } = useAcoes(() =>
     navigate(s?.status === 'APROVADO' ? '/admin/solicitacoes' : '/solicitacoes'),
   );
@@ -143,10 +145,15 @@ function Editor({ opcoes, s }: { opcoes: OpcoesDTO; s: SolicitacaoDTO | null }) 
   const salvarNoServidor = async (): Promise<SolicitacaoDTO> => {
     const p = paraPayload(v);
     const id = s?.id ?? criadoId.current;
-    if (id) return api<SolicitacaoDTO>(`/solicitacoes/${id}`, { method: 'PUT', body: p });
-    const criado = await api<SolicitacaoDTO>('/solicitacoes', { method: 'POST', body: p });
-    criadoId.current = criado.id;
-    return criado;
+    const r = id
+      ? await api<SolicitacaoDTO>(`/solicitacoes/${id}`, {
+          method: 'PUT',
+          body: { ...p, versao: versao.current },
+        })
+      : await api<SolicitacaoDTO>('/solicitacoes', { method: 'POST', body: p });
+    criadoId.current = r.id;
+    versao.current = r.atualizadoEm;
+    return r;
   };
 
   const tratarErro = (e: unknown) => {

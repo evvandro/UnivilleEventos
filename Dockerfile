@@ -21,5 +21,8 @@ RUN npm run build
 ENV NODE_ENV=production
 EXPOSE 3333
 
+# Não roda como root.
+USER node
+
 # Aplica as migrations pendentes e sobe o servidor.
 CMD ["npm", "start"]

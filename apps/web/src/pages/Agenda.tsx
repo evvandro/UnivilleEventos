@@ -8,7 +8,7 @@ import { DIAS_SEMANA, diaSemana, hojeLocal, horaBR, nomeMes } from '../lib/forma
 
 const PALETA = [
   { cor: '#347bb7', fundo: '#e3eef8' },
-  { cor: '#00562b', fundo: '#e1efe6' },
+  { cor: '#005f36', fundo: '#e1efe6' },
   { cor: '#b8740a', fundo: '#fbefd9' },
   { cor: '#6a4c93', fundo: '#eee7f6' },
   { cor: '#b03a48', fundo: '#f8e4e7' },

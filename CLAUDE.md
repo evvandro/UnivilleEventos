@@ -75,9 +75,10 @@ Deploy (pendente, quem configura é o usuário): AWS free tier com uma única EC
 
 ## Identidade visual (base: clone do login Enturma em ~/Desktop/Facul/univille)
 
-- Fonte: `"Helvetica Neue", Helvetica, Arial, sans-serif` (só ela).
-- Barra superior verde `#00562b`, 58px. Fundo de login: `bg.png` (pôr do sol borrado, em `docs/bg.png`) com uma caixa branca de sombra leve.
-- Botão primário azul `#347bb7` (borda `#2e6da4`, hover `#286090`); links `#337ab7`; campos lavanda `#e9f0fe` com borda `#a6a7b1`.
+- Segue o manual da marca (cmarcauniville.com): primárias verde escuro `#005F36`, verde claro `#82C55B`, branco e areia `#E3E1DA`; ~50% branco, mínimo de 2 primárias por tela.
+- Fonte: `"Proxima Nova", Arial, sans-serif` (o manual autoriza Arial no digital). Não versionar o arquivo da Proxima Nova (fonte comercial).
+- Barra superior verde escuro `#005F36`, 58px, com filete inferior verde claro. Fundo de login: `bg.png` (pôr do sol borrado, em `docs/bg.png`) com uma caixa branca de sombra leve.
+- Botão primário azul `#347bb7` (herdado do Enturma, decisão da equipe; não é cor do manual) (borda `#2e6da4`, hover `#286090`); links `#337ab7`; campos lavanda `#e9f0fe` com borda `#a6a7b1`.
 - Status em etiquetas no estilo Bootstrap 3: rascunho cinza, aguardando âmbar, aprovado verde, rejeitado vermelho, cancelado ardósia.
 - Referência das telas: `docs/proposta.html`.
 

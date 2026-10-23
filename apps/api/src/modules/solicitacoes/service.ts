@@ -313,6 +313,15 @@ export function criarSolicitacoesService(db: Db) {
       return comGarantiaDeConflito(id, async (tx, usar) => {
         const atual = await travar(tx, id);
         exigir('editar', atual, ator);
+        // Controle de concorrência otimista: quem editou a partir de uma versão antiga
+        // não sobrescreve, em silêncio, o que outra pessoa salvou nesse meio-tempo.
+        const versao = (body as { versao?: unknown } | null)?.versao;
+        if (typeof versao === 'string' && versao !== atual.atualizadoEm.toISOString()) {
+          throw new AppError(
+            409,
+            'Esta solicitação foi alterada por outra pessoa enquanto você editava. Recarregue a página para ver a versão atual.',
+          );
+        }
         const completo = atual.status === 'AGUARDANDO' || atual.status === 'APROVADO';
         const p = usar(validar(body, completo));
         await validarRecursos(tx, p);

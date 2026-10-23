@@ -56,7 +56,7 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <header className="sticky top-0 z-30 flex h-[58px] items-center gap-3 bg-uni px-3 shadow-[0_1px_3px_rgba(0,0,0,.25)] sm:gap-4 sm:px-5">
+      <header className="sticky top-0 z-30 flex h-[58px] items-center gap-3 border-b-[3px] border-verde-claro bg-uni px-3 shadow-[0_1px_3px_rgba(0,0,0,.25)] sm:gap-4 sm:px-5">
         <button
           type="button"
           onClick={() => setAberto(true)}
@@ -80,7 +80,9 @@ export function AppLayout() {
         <div className="flex items-center justify-between border-b border-[#e2e2e2] bg-[#ebebeb] px-4 py-3">
           <div className="flex items-center gap-2">
             <span role="img" aria-label="Univille" className="logo-verde h-7 w-[125px]" />
-            <span className="text-[12px] font-bold text-[#5aa83c]">eventos</span>
+            <span className="border-l border-[#c8c8c8] pl-2 text-[12px] font-bold text-uni">
+              eventos
+            </span>
           </div>
           <button
             type="button"

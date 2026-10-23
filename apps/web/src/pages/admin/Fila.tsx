@@ -75,7 +75,7 @@ export default function Fila() {
                       type="button"
                       onClick={() => setSelId(s.id)}
                       aria-current={ativo}
-                      className={`grid w-full gap-0.5 px-3 py-2.5 text-left ${ativo ? 'bg-[#eaf2fb] shadow-[inset_3px_0_0_#00562b]' : 'bg-white hover:bg-[#f7fafd]'}`}
+                      className={`grid w-full gap-0.5 px-3 py-2.5 text-left ${ativo ? 'bg-[#eaf2fb] shadow-[inset_3px_0_0_#005f36]' : 'bg-white hover:bg-[#f7fafd]'}`}
                     >
                       <span className="truncate text-[14px] font-bold text-link uppercase">
                         {s.nome}
