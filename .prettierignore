@@ -1,0 +1,11 @@
+node_modules
+dist
+.vitest
+package-lock.json
+apps/api/prisma/migrations
+Docs
+Docs2
+.claude
+*.png
+*.jpg
+*.heic

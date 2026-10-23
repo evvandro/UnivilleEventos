@@ -35,7 +35,10 @@ export function registrarCrud<S extends z.ZodType>(app: FastifyInstance, cfg: Cr
   const atualizar = cfg.paraAtualizar ?? ((x: object) => x);
 
   app.get(cfg.caminho, async () => {
-    const itens = await d.findMany({ include: cfg.include, orderBy: cfg.orderBy ?? { nome: 'asc' } });
+    const itens = await d.findMany({
+      include: cfg.include,
+      orderBy: cfg.orderBy ?? { nome: 'asc' },
+    });
     return itens.map(dto);
   });
 

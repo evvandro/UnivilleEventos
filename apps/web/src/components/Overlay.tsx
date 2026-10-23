@@ -2,7 +2,8 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from './Icon';
 
-const FOCAVEIS = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const FOCAVEIS =
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 /** Fecha com Esc, prende o foco dentro do painel e devolve o foco ao fechar. */
 function usePainelModal(aberto: boolean, fechar: () => void) {
@@ -14,7 +15,9 @@ function usePainelModal(aberto: boolean, fechar: () => void) {
     if (!aberto) return;
     const anterior = document.activeElement as HTMLElement | null;
     const el = painel.current;
-    (el?.querySelector<HTMLElement>('[data-autofoco]') ?? el?.querySelector<HTMLElement>(FOCAVEIS))?.focus();
+    (
+      el?.querySelector<HTMLElement>('[data-autofoco]') ?? el?.querySelector<HTMLElement>(FOCAVEIS)
+    )?.focus();
     const tecla = (e: KeyboardEvent) => {
       if (e.key === 'Escape') fecharRef.current();
       if (e.key !== 'Tab' || !el) return;
@@ -54,7 +57,10 @@ export function Drawer({
 }) {
   const painel = usePainelModal(aberto, fechar);
   return createPortal(
-    <div className={`fixed inset-0 z-50 ${aberto ? '' : 'pointer-events-none'}`} aria-hidden={!aberto}>
+    <div
+      className={`fixed inset-0 z-50 ${aberto ? '' : 'pointer-events-none'}`}
+      aria-hidden={!aberto}
+    >
       <div
         className={`absolute inset-0 bg-black/35 transition-opacity duration-200 ${aberto ? 'opacity-100' : 'opacity-0'}`}
         onClick={fechar}
@@ -108,13 +114,20 @@ export function Modal({
           <h2 id="modal-titulo" className="text-[16px] font-bold">
             {titulo}
           </h2>
-          <button type="button" onClick={fechar} className="text-suave hover:text-texto" aria-label="Fechar">
+          <button
+            type="button"
+            onClick={fechar}
+            className="text-suave hover:text-texto"
+            aria-label="Fechar"
+          >
             <Icon nome="fechar" />
           </button>
         </div>
         <div className="p-4">{children}</div>
         {rodape && (
-          <div className="flex flex-wrap justify-end gap-2 border-t border-linha px-4 py-3">{rodape}</div>
+          <div className="flex flex-wrap justify-end gap-2 border-t border-linha px-4 py-3">
+            {rodape}
+          </div>
         )}
       </div>
     </div>,

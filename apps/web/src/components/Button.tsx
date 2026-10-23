@@ -23,7 +23,15 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   carregando?: boolean;
 };
 
-export function Button({ variante, tamanho, carregando, className = '', children, disabled, ...p }: Props) {
+export function Button({
+  variante,
+  tamanho,
+  carregando,
+  className = '',
+  children,
+  disabled,
+  ...p
+}: Props) {
   return (
     <button
       type="button"

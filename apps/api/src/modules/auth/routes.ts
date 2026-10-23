@@ -30,7 +30,13 @@ export async function authRoutes(app: FastifyInstance) {
     }
     if (!u.ativo) throw new AppError(403, 'Usuário desativado. Procure o setor de Eventos.');
     tentativas.registrarSucesso(req.ip, matricula);
-    const sessao = { id: u.id, matricula: u.matricula, nome: u.nome, email: u.email, perfil: u.perfil };
+    const sessao = {
+      id: u.id,
+      matricula: u.matricula,
+      nome: u.nome,
+      email: u.email,
+      perfil: u.perfil,
+    };
     gravarSessao(reply, app, sessao);
     return sessao;
   });

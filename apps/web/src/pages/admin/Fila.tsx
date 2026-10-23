@@ -20,7 +20,9 @@ const ABAS: { valor: Exclude<Status, 'RASCUNHO'>; rotulo: string }[] = [
 /** Fila do administrador: lista por status à esquerda, detalhe e ações à direita. */
 export default function Fila() {
   const [status, setStatus] = useState<Exclude<Status, 'RASCUNHO'>>('AGUARDANDO');
-  const lista = useApi<{ itens: SolicitacaoDTO[]; contagem: ContagemStatus }>(`/admin/solicitacoes?status=${status}`);
+  const lista = useApi<{ itens: SolicitacaoDTO[]; contagem: ContagemStatus }>(
+    `/admin/solicitacoes?status=${status}`,
+  );
   const [selId, setSelId] = useState<number | null>(null);
   const itens = lista.dados?.itens ?? [];
   const sel = itens.find((i) => i.id === selId) ?? itens[0];
@@ -44,7 +46,11 @@ export default function Fila() {
           rotuloAcessivel="Status"
           ativo={status}
           onChange={setStatus}
-          itens={ABAS.map((a) => ({ ...a, contagem: lista.dados?.contagem[a.valor], destaque: a.valor === 'AGUARDANDO' }))}
+          itens={ABAS.map((a) => ({
+            ...a,
+            contagem: lista.dados?.contagem[a.valor],
+            destaque: a.valor === 'AGUARDANDO',
+          }))}
         />
       </div>
       {lista.erro && <Alerta>{lista.erro}</Alerta>}
@@ -55,7 +61,9 @@ export default function Fila() {
             <Carregando />
           ) : itens.length === 0 ? (
             <Vazio titulo="Nada por aqui">
-              {status === 'AGUARDANDO' ? 'Nenhuma solicitação aguardando análise.' : 'Nenhuma solicitação neste status.'}
+              {status === 'AGUARDANDO'
+                ? 'Nenhuma solicitação aguardando análise.'
+                : 'Nenhuma solicitação neste status.'}
             </Vazio>
           ) : (
             <ul className="grid gap-[3px] rounded-[3px] border border-[#357ebd] bg-[#428bca] p-1">
@@ -69,9 +77,12 @@ export default function Fila() {
                       aria-current={ativo}
                       className={`grid w-full gap-0.5 px-3 py-2.5 text-left ${ativo ? 'bg-[#eaf2fb] shadow-[inset_3px_0_0_#00562b]' : 'bg-white hover:bg-[#f7fafd]'}`}
                     >
-                      <span className="truncate text-[14px] font-bold text-link uppercase">{s.nome}</span>
+                      <span className="truncate text-[14px] font-bold text-link uppercase">
+                        {s.nome}
+                      </span>
                       <span className="text-[12.5px] text-suave">
-                        {s.data && `${diaSemana(s.data)} ${dataBR(s.data)}`} · {faixaHorario(s.horaInicio, s.horaFim)}
+                        {s.data && `${diaSemana(s.data)} ${dataBR(s.data)}`} ·{' '}
+                        {faixaHorario(s.horaInicio, s.horaFim)}
                       </span>
                       <span className="text-[12.5px] text-suave">
                         {s.ambiente?.nome} · {s.solicitanteNome}
@@ -93,19 +104,31 @@ export default function Fila() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {sel.acoes.includes('aprovar') && (
-                  <Button variante="sucesso" onClick={() => pedir('aprovar', sel)}>Aprovar e publicar</Button>
+                  <Button variante="sucesso" onClick={() => pedir('aprovar', sel)}>
+                    Aprovar e publicar
+                  </Button>
                 )}
                 {sel.acoes.includes('rejeitar') && (
-                  <Button variante="perigo" onClick={() => pedir('rejeitar', sel)}>Rejeitar</Button>
+                  <Button variante="perigo" onClick={() => pedir('rejeitar', sel)}>
+                    Rejeitar
+                  </Button>
                 )}
-                {sel.acoes.includes('editar') && <LinkBotao to={`/solicitacoes/${sel.id}`}>Editar evento</LinkBotao>}
+                {sel.acoes.includes('editar') && (
+                  <LinkBotao to={`/solicitacoes/${sel.id}`}>Editar evento</LinkBotao>
+                )}
                 {sel.acoes.includes('cancelar') && (
-                  <Button variante="fantasma" className="text-[#a94442]" onClick={() => pedir('cancelar', sel)}>
+                  <Button
+                    variante="fantasma"
+                    className="text-[#a94442]"
+                    onClick={() => pedir('cancelar', sel)}
+                  >
                     {sel.status === 'APROVADO' ? 'Cancelar evento' : 'Cancelar solicitação'}
                   </Button>
                 )}
               </div>
-              <DetalheCampos linhas={linhasDetalhe(detalhe.dados?.id === sel.id ? detalhe.dados : sel)} />
+              <DetalheCampos
+                linhas={linhasDetalhe(detalhe.dados?.id === sel.id ? detalhe.dados : sel)}
+              />
               {detalhe.dados?.id === sel.id && <Historico s={detalhe.dados} />}
             </div>
           )}

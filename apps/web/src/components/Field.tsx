@@ -16,7 +16,11 @@ export function Field({ id, rotulo, obrigatorio, erro, dica, className = '', chi
     <div className={`grid min-w-0 content-start gap-1 ${className}`}>
       <label htmlFor={id} className="text-[13px] font-bold text-[#444]">
         {rotulo}
-        {obrigatorio && <span className="ml-0.5 text-perigo" aria-hidden="true">*</span>}
+        {obrigatorio && (
+          <span className="ml-0.5 text-perigo" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       {children}
       {erro ? (

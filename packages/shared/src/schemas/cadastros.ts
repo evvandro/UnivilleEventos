@@ -63,9 +63,15 @@ export const configuracaoSchema = z.object({
 
 const dataOpcional = z.preprocess(
   (v) => (v === '' ? undefined : v),
-  z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida').optional(),
+  z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida')
+    .optional(),
 );
-const idQuery = z.preprocess((v) => (v === '' ? undefined : v), z.coerce.number().int().positive().optional());
+const idQuery = z.preprocess(
+  (v) => (v === '' ? undefined : v),
+  z.coerce.number().int().positive().optional(),
+);
 
 export const relatorioFiltroSchema = z.object({
   de: dataOpcional,

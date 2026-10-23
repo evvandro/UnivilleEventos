@@ -40,7 +40,10 @@ export async function usuariosRoutes(app: FastifyInstance) {
     const { id } = idParam.parse(req.params);
     const { senha, ...d } = usuarioAtualizarSchema.parse(req.body);
     if (id === req.usuario.id && (!d.ativo || d.perfil !== 'ADMIN')) {
-      throw new AppError(409, 'Você não pode desativar nem remover o perfil de administrador da sua própria conta.');
+      throw new AppError(
+        409,
+        'Você não pode desativar nem remover o perfil de administrador da sua própria conta.',
+      );
     }
     const u = await prisma.usuario.update({
       where: { id },

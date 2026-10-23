@@ -25,21 +25,42 @@ describe('ações disponíveis por estado (caderno, seção 5)', () => {
 describe('verificar', () => {
   it('enviar leva rascunho e rejeitado para aguardando', () => {
     expect(verificar('enviar', autor('RASCUNHO'))).toEqual({ permitido: true, para: 'AGUARDANDO' });
-    expect(verificar('enviar', autor('REJEITADO'))).toEqual({ permitido: true, para: 'AGUARDANDO' });
+    expect(verificar('enviar', autor('REJEITADO'))).toEqual({
+      permitido: true,
+      para: 'AGUARDANDO',
+    });
   });
 
   it('aprovar e rejeitar só a partir de aguardando', () => {
-    expect(verificar('aprovar', admin('AGUARDANDO'))).toEqual({ permitido: true, para: 'APROVADO' });
-    expect(verificar('rejeitar', admin('AGUARDANDO'))).toEqual({ permitido: true, para: 'REJEITADO' });
-    expect(verificar('aprovar', admin('RASCUNHO'))).toMatchObject({ permitido: false, causa: 'estado' });
+    expect(verificar('aprovar', admin('AGUARDANDO'))).toEqual({
+      permitido: true,
+      para: 'APROVADO',
+    });
+    expect(verificar('rejeitar', admin('AGUARDANDO'))).toEqual({
+      permitido: true,
+      para: 'REJEITADO',
+    });
+    expect(verificar('aprovar', admin('RASCUNHO'))).toMatchObject({
+      permitido: false,
+      causa: 'estado',
+    });
   });
 
   it('solicitante não altera evento aprovado', () => {
-    expect(verificar('editar', autor('APROVADO'))).toMatchObject({ permitido: false, causa: 'permissao' });
-    expect(verificar('cancelar', autor('APROVADO'))).toMatchObject({ permitido: false, causa: 'permissao' });
+    expect(verificar('editar', autor('APROVADO'))).toMatchObject({
+      permitido: false,
+      causa: 'permissao',
+    });
+    expect(verificar('cancelar', autor('APROVADO'))).toMatchObject({
+      permitido: false,
+      causa: 'permissao',
+    });
   });
 
   it('cancelado é terminal', () => {
-    expect(verificar('editar', admin('CANCELADO'))).toMatchObject({ permitido: false, causa: 'estado' });
+    expect(verificar('editar', admin('CANCELADO'))).toMatchObject({
+      permitido: false,
+      causa: 'estado',
+    });
   });
 });

@@ -33,7 +33,11 @@ export async function cadastrosRoutes(app: FastifyInstance) {
   app.addHook('preHandler', exigirAdmin);
 
   registrarCrud(app, { caminho: '/admin/temas', delegate: prisma.tema, schema: temaSchema });
-  registrarCrud(app, { caminho: '/admin/recursos', delegate: prisma.recurso, schema: recursoSchema });
+  registrarCrud(app, {
+    caminho: '/admin/recursos',
+    delegate: prisma.recurso,
+    schema: recursoSchema,
+  });
   registrarCrud(app, {
     caminho: '/admin/centros-custo',
     delegate: prisma.centroCusto,

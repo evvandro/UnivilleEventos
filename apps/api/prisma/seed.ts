@@ -25,16 +25,41 @@ async function main() {
 
   const hash = (s: string) => bcrypt.hash(s, 10);
   const admin = await db.usuario.create({
-    data: { nome: 'Setor de Eventos (Admin)', matricula: '2026000001', email: 'admin@univille.test', senhaHash: await hash('admin123'), perfil: 'ADMIN' },
+    data: {
+      nome: 'Setor de Eventos (Admin)',
+      matricula: '2026000001',
+      email: 'admin@univille.test',
+      senhaHash: await hash('admin123'),
+      perfil: 'ADMIN',
+    },
   });
   const ana = await db.usuario.create({
-    data: { nome: 'Ana Souza', matricula: '2026000002', email: 'ana.souza@univille.test', senhaHash: await hash('senha123'), perfil: 'SOLICITANTE' },
+    data: {
+      nome: 'Ana Souza',
+      matricula: '2026000002',
+      email: 'ana.souza@univille.test',
+      senhaHash: await hash('senha123'),
+      perfil: 'SOLICITANTE',
+    },
   });
   const carlos = await db.usuario.create({
-    data: { nome: 'Carlos Lima', matricula: '2026000003', email: 'carlos.lima@univille.test', senhaHash: await hash('senha123'), perfil: 'SOLICITANTE' },
+    data: {
+      nome: 'Carlos Lima',
+      matricula: '2026000003',
+      email: 'carlos.lima@univille.test',
+      senhaHash: await hash('senha123'),
+      perfil: 'SOLICITANTE',
+    },
   });
   await db.usuario.create({
-    data: { nome: 'Bruno Antigo (desativado)', matricula: '2026000004', email: 'bruno@univille.test', senhaHash: await hash('senha123'), perfil: 'SOLICITANTE', ativo: false },
+    data: {
+      nome: 'Bruno Antigo (desativado)',
+      matricula: '2026000004',
+      email: 'bruno@univille.test',
+      senhaHash: await hash('senha123'),
+      perfil: 'SOLICITANTE',
+      ativo: false,
+    },
   });
 
   const temas = Object.fromEntries(
@@ -101,19 +126,155 @@ async function main() {
     incompleto?: boolean;
   };
   const defs: Def[] = [
-    { nome: 'Semana Acadêmica de Engenharia', status: 'APROVADO', autor: ana.id, tema: 'Congresso', dia: 6, ini: '19:00', fim: '22:00', local: 'Auditório A', curso: 'Engenharia de Software', palestrante: 'Dra. Helena Prado', recursos: ['Projetor', 'Som', 'Microfone'] },
-    { nome: 'IA na Indústria Moveleira', status: 'APROVADO', autor: carlos.id, tema: 'Palestra', dia: 8, ini: '14:00', fim: '16:00', local: 'Miniauditório', curso: 'Design', palestrante: 'Carlos Wendt', recursos: ['Projetor'] },
-    { nome: 'Oficina de Currículo', status: 'APROVADO', autor: carlos.id, tema: 'Oficina', dia: 6, ini: '14:00', fim: '16:00', local: 'Lab. 105', curso: 'Administração', palestrante: 'Núcleo de Carreiras' },
-    { nome: 'Workshop de Git e GitHub', status: 'APROVADO', autor: ana.id, tema: 'Workshop', dia: 15, ini: '18:30', fim: '20:00', local: 'Lab. 105', curso: 'Sistemas de Informação', palestrante: 'Marina Kühn', recursos: ['Projetor', 'Notebook'] },
-    { nome: 'Carreira em Dados', status: 'APROVADO', autor: carlos.id, tema: 'Palestra', dia: 21, ini: '10:00', fim: '11:30', local: 'Sala 213', curso: 'Sistemas de Informação', palestrante: 'Júlia Becker' },
-    { nome: 'Feira de Profissões', status: 'APROVADO', autor: ana.id, tema: 'Feira', dia: 34, ini: '09:00', fim: '17:00', local: 'Hall de Entrada', curso: 'Pró-Reitoria de Extensão', palestrante: 'Coordenações dos cursos', recursos: ['Som', 'Mesas'] },
-    { nome: 'Colação de Grau Simulada', status: 'APROVADO', autor: carlos.id, tema: 'Solenidade', dia: 48, ini: '19:30', fim: '21:30', local: 'Auditório A', curso: 'Direito', palestrante: 'Reitoria', recursos: ['Som', 'Microfone', 'Palco'] },
+    {
+      nome: 'Semana Acadêmica de Engenharia',
+      status: 'APROVADO',
+      autor: ana.id,
+      tema: 'Congresso',
+      dia: 6,
+      ini: '19:00',
+      fim: '22:00',
+      local: 'Auditório A',
+      curso: 'Engenharia de Software',
+      palestrante: 'Dra. Helena Prado',
+      recursos: ['Projetor', 'Som', 'Microfone'],
+    },
+    {
+      nome: 'IA na Indústria Moveleira',
+      status: 'APROVADO',
+      autor: carlos.id,
+      tema: 'Palestra',
+      dia: 8,
+      ini: '14:00',
+      fim: '16:00',
+      local: 'Miniauditório',
+      curso: 'Design',
+      palestrante: 'Carlos Wendt',
+      recursos: ['Projetor'],
+    },
+    {
+      nome: 'Oficina de Currículo',
+      status: 'APROVADO',
+      autor: carlos.id,
+      tema: 'Oficina',
+      dia: 6,
+      ini: '14:00',
+      fim: '16:00',
+      local: 'Lab. 105',
+      curso: 'Administração',
+      palestrante: 'Núcleo de Carreiras',
+    },
+    {
+      nome: 'Workshop de Git e GitHub',
+      status: 'APROVADO',
+      autor: ana.id,
+      tema: 'Workshop',
+      dia: 15,
+      ini: '18:30',
+      fim: '20:00',
+      local: 'Lab. 105',
+      curso: 'Sistemas de Informação',
+      palestrante: 'Marina Kühn',
+      recursos: ['Projetor', 'Notebook'],
+    },
+    {
+      nome: 'Carreira em Dados',
+      status: 'APROVADO',
+      autor: carlos.id,
+      tema: 'Palestra',
+      dia: 21,
+      ini: '10:00',
+      fim: '11:30',
+      local: 'Sala 213',
+      curso: 'Sistemas de Informação',
+      palestrante: 'Júlia Becker',
+    },
+    {
+      nome: 'Feira de Profissões',
+      status: 'APROVADO',
+      autor: ana.id,
+      tema: 'Feira',
+      dia: 34,
+      ini: '09:00',
+      fim: '17:00',
+      local: 'Hall de Entrada',
+      curso: 'Pró-Reitoria de Extensão',
+      palestrante: 'Coordenações dos cursos',
+      recursos: ['Som', 'Mesas'],
+    },
+    {
+      nome: 'Colação de Grau Simulada',
+      status: 'APROVADO',
+      autor: carlos.id,
+      tema: 'Solenidade',
+      dia: 48,
+      ini: '19:30',
+      fim: '21:30',
+      local: 'Auditório A',
+      curso: 'Direito',
+      palestrante: 'Reitoria',
+      recursos: ['Som', 'Microfone', 'Palco'],
+    },
     // Dois pendentes que se sobrepõem entre si: aprovar um faz o outro falhar na aprovação.
-    { nome: 'Feira de Estágios', status: 'AGUARDANDO', autor: ana.id, tema: 'Feira', dia: 27, ini: '18:00', fim: '21:00', local: 'Hall de Entrada', curso: 'Administração', palestrante: 'Empresas parceiras', recursos: ['Mesas'] },
-    { nome: 'Mostra de Projetos Integradores', status: 'AGUARDANDO', autor: carlos.id, tema: 'Feira', dia: 27, ini: '19:00', fim: '22:00', local: 'Hall de Entrada', curso: 'Engenharia de Software', palestrante: 'Turmas do 3º ano' },
-    { nome: 'Hackathon Interno', status: 'REJEITADO', autor: ana.id, tema: 'Oficina', dia: 20, ini: '19:00', fim: '22:00', local: 'Lab. 105', curso: 'Engenharia de Software', palestrante: 'Prof. Ana Souza', motivo: 'O Lab. 105 está reservado para manutenção até as 20h nesse dia. Ajuste o horário para começar às 20h ou escolha outro local.' },
-    { nome: 'Mostra de Robótica', status: 'CANCELADO', autor: carlos.id, tema: 'Feira', dia: 12, ini: '14:00', fim: '17:00', local: 'Hall de Entrada', curso: 'Engenharia de Software', palestrante: 'Equipe de Robótica' },
-    { nome: 'Palestra sobre LGPD', status: 'RASCUNHO', autor: ana.id, tema: 'Palestra', curso: 'Direito', incompleto: true },
+    {
+      nome: 'Feira de Estágios',
+      status: 'AGUARDANDO',
+      autor: ana.id,
+      tema: 'Feira',
+      dia: 27,
+      ini: '18:00',
+      fim: '21:00',
+      local: 'Hall de Entrada',
+      curso: 'Administração',
+      palestrante: 'Empresas parceiras',
+      recursos: ['Mesas'],
+    },
+    {
+      nome: 'Mostra de Projetos Integradores',
+      status: 'AGUARDANDO',
+      autor: carlos.id,
+      tema: 'Feira',
+      dia: 27,
+      ini: '19:00',
+      fim: '22:00',
+      local: 'Hall de Entrada',
+      curso: 'Engenharia de Software',
+      palestrante: 'Turmas do 3º ano',
+    },
+    {
+      nome: 'Hackathon Interno',
+      status: 'REJEITADO',
+      autor: ana.id,
+      tema: 'Oficina',
+      dia: 20,
+      ini: '19:00',
+      fim: '22:00',
+      local: 'Lab. 105',
+      curso: 'Engenharia de Software',
+      palestrante: 'Prof. Ana Souza',
+      motivo:
+        'O Lab. 105 está reservado para manutenção até as 20h nesse dia. Ajuste o horário para começar às 20h ou escolha outro local.',
+    },
+    {
+      nome: 'Mostra de Robótica',
+      status: 'CANCELADO',
+      autor: carlos.id,
+      tema: 'Feira',
+      dia: 12,
+      ini: '14:00',
+      fim: '17:00',
+      local: 'Hall de Entrada',
+      curso: 'Engenharia de Software',
+      palestrante: 'Equipe de Robótica',
+    },
+    {
+      nome: 'Palestra sobre LGPD',
+      status: 'RASCUNHO',
+      autor: ana.id,
+      tema: 'Palestra',
+      curso: 'Direito',
+      incompleto: true,
+    },
   ];
 
   for (const d of defs) {
@@ -129,10 +290,16 @@ async function main() {
         fim: data && d.fim ? em(data, d.fim) : null,
         ambienteId: d.local ? ambientes[d.local] : null,
         cursoId: d.curso ? cursos[d.curso] : null,
-        solicitanteNome: d.incompleto ? null : d.autor === ana.id ? 'Prof. Ana Souza' : 'Coord. Carlos Lima',
+        solicitanteNome: d.incompleto
+          ? null
+          : d.autor === ana.id
+            ? 'Prof. Ana Souza'
+            : 'Coord. Carlos Lima',
         palestrante: d.palestrante ?? null,
         publicoAlvo: d.incompleto ? null : 'Alunos de graduação e comunidade acadêmica',
-        justificativa: d.incompleto ? null : 'Integrar teoria e prática com a comunidade acadêmica.',
+        justificativa: d.incompleto
+          ? null
+          : 'Integrar teoria e prática com a comunidade acadêmica.',
         objetivo: d.incompleto ? null : 'Aproximar os estudantes do mercado e de temas atuais.',
         cerimonial: d.incompleto ? null : d.tema === 'Solenidade',
         haveraInscricoes: d.incompleto ? null : d.tema !== 'Palestra',
@@ -143,7 +310,9 @@ async function main() {
       },
     });
     const passos: StatusSolicitacao[] =
-      d.status === 'RASCUNHO' ? ['RASCUNHO'] : ['RASCUNHO', 'AGUARDANDO', ...(d.status === 'AGUARDANDO' ? [] : [d.status])];
+      d.status === 'RASCUNHO'
+        ? ['RASCUNHO']
+        : ['RASCUNHO', 'AGUARDANDO', ...(d.status === 'AGUARDANDO' ? [] : [d.status])];
     for (let i = 0; i < passos.length; i++) {
       const finalizaAdmin = i === 2;
       await db.historicoStatus.create({

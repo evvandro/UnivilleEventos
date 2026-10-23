@@ -38,12 +38,14 @@ export default function Agenda() {
     <>
       <section className="bg-[#4a3218] bg-[url(/bg.png)] bg-cover bg-center px-4 py-10 sm:px-6 sm:py-14">
         <div className="mx-auto max-w-[1120px] text-white [text-shadow:0_1px_12px_rgba(20,10,0,.5)]">
-          <p className="text-[12px] tracking-[.12em] uppercase opacity-85">Setor de Eventos · Univille</p>
+          <p className="text-[12px] tracking-[.12em] uppercase opacity-85">
+            Setor de Eventos · Univille
+          </p>
           <h1 className="mt-2 text-[clamp(28px,4.5vw,42px)] leading-[1.08] font-bold tracking-tight text-balance">
             Agenda de eventos institucionais
           </h1>
           <p className="mt-3 max-w-[52ch] text-[16px] opacity-95">
-            Palestras, oficinas, congressos e solenidades. 
+            Palestras, oficinas, congressos e solenidades.
           </p>
         </div>
       </section>
@@ -65,7 +67,11 @@ export default function Agenda() {
                       disabled={idx <= 0}
                       onClick={() => trocarMes(meses[idx - 1])}
                     />
-                    <div role="tablist" aria-label="Meses" className="flex overflow-hidden rounded-[3px] border border-[#ccc] bg-white">
+                    <div
+                      role="tablist"
+                      aria-label="Meses"
+                      className="flex overflow-hidden rounded-[3px] border border-[#ccc] bg-white"
+                    >
                       {meses.map((m) => (
                         <button
                           key={m}
@@ -74,7 +80,9 @@ export default function Agenda() {
                           aria-selected={m === mes}
                           onClick={() => trocarMes(m)}
                           className={`border-l border-[#ccc] px-3 py-1 text-[13px] first:border-l-0 ${
-                            m === mes ? 'bg-uni font-bold text-white' : 'text-link hover:bg-[#f0f0f0]'
+                            m === mes
+                              ? 'bg-uni font-bold text-white'
+                              : 'text-link hover:bg-[#f0f0f0]'
                           }`}
                         >
                           {nomeMes(m, false)}
@@ -91,7 +99,10 @@ export default function Agenda() {
                   <div className="ml-auto flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-[#666]">
                     {temas.map((t) => (
                       <span key={t.id} className="inline-flex items-center gap-1">
-                        <i className="size-2.5 rounded-[2px]" style={{ background: corTema(t.id).cor }} />
+                        <i
+                          className="size-2.5 rounded-[2px]"
+                          style={{ background: corTema(t.id).cor }}
+                        />
                         {t.nome}
                       </span>
                     ))}
@@ -106,7 +117,12 @@ export default function Agenda() {
                 />
               </section>
 
-              <ListaEventos eventos={dados.eventos} meses={meses} diaSel={diaSel} limpar={() => setDiaSel(null)} />
+              <ListaEventos
+                eventos={dados.eventos}
+                meses={meses}
+                diaSel={diaSel}
+                limpar={() => setDiaSel(null)}
+              />
             </>
           )
         )}
@@ -115,7 +131,15 @@ export default function Agenda() {
   );
 }
 
-function SetaMes({ direcao, disabled, onClick }: { direcao: 'anterior' | 'proximo'; disabled: boolean; onClick: () => void }) {
+function SetaMes({
+  direcao,
+  disabled,
+  onClick,
+}: {
+  direcao: 'anterior' | 'proximo';
+  disabled: boolean;
+  onClick: () => void;
+}) {
   return (
     <button
       type="button"
@@ -146,13 +170,16 @@ function Calendario({
   return (
     <div className="grid grid-cols-7">
       {DIAS_SEMANA.map((d) => (
-        <div key={d} className="border-b border-linha bg-[#fafafa] px-1.5 py-1.5 text-center text-[11px] font-bold tracking-wide text-[#777] uppercase sm:text-left">
+        <div
+          key={d}
+          className="border-b border-linha bg-[#fafafa] px-1.5 py-1.5 text-center text-[11px] font-bold tracking-wide text-[#777] uppercase sm:text-left"
+        >
           {d}
         </div>
       ))}
       {dias.map((d) => {
         const doMes = d.startsWith(mes);
-        const eventos = doMes ? porDia.get(d) ?? [] : [];
+        const eventos = doMes ? (porDia.get(d) ?? []) : [];
         const passado = d < hoje;
         const ehHoje = d === hoje;
         const sel = d === diaSel;
@@ -172,24 +199,42 @@ function Calendario({
           >
             <span
               className={`w-max rounded-[2px] px-1 text-[12px] tabular-nums ${
-                ehHoje ? 'bg-uni font-bold text-white' : !doMes ? 'text-[#c4c4c4]' : passado ? 'text-[#999]' : ''
+                ehHoje
+                  ? 'bg-uni font-bold text-white'
+                  : !doMes
+                    ? 'text-[#c4c4c4]'
+                    : passado
+                      ? 'text-[#999]'
+                      : ''
               }`}
             >
               {Number(d.slice(8))}
             </span>
-            {ehHoje && <span className="px-1 text-[9.5px] font-bold tracking-wider text-uni uppercase">hoje</span>}
+            {ehHoje && (
+              <span className="px-1 text-[9.5px] font-bold tracking-wider text-uni uppercase">
+                hoje
+              </span>
+            )}
             <span className="flex flex-wrap gap-0.5 sm:flex-col sm:flex-nowrap">
               {eventos.map((e) => {
                 const c = corTema(e.tema.id);
                 return (
-                  <span key={e.id} title={`${horaBR(e.horaInicio)} · ${e.nome} · ${e.local}`} className="contents">
+                  <span
+                    key={e.id}
+                    title={`${horaBR(e.horaInicio)} · ${e.nome} · ${e.local}`}
+                    className="contents"
+                  >
                     <span
                       className="hidden truncate rounded-[1px] border-l-[3px] px-1 py-0.5 text-[11px] leading-tight text-texto sm:block"
                       style={{ background: c.fundo, borderColor: c.cor }}
                     >
-                      <b style={{ color: c.cor }}>{horaBR(e.horaInicio).replace('h00', 'h')}</b> {e.nome}
+                      <b style={{ color: c.cor }}>{horaBR(e.horaInicio).replace('h00', 'h')}</b>{' '}
+                      {e.nome}
                     </span>
-                    <span className="size-2 rounded-[2px] sm:hidden" style={{ background: c.cor }} />
+                    <span
+                      className="size-2 rounded-[2px] sm:hidden"
+                      style={{ background: c.cor }}
+                    />
                   </span>
                 );
               })}
@@ -217,16 +262,24 @@ function ListaEventos({
     <section className="cartao min-w-0 self-start" aria-labelledby="titulo-lista">
       <div className="flex items-center gap-2 border-b border-linha bg-[#f5f5f5] px-4 py-2.5">
         <h2 id="titulo-lista" className="text-[16px] font-bold">
-          {diaSel ? `Eventos em ${diaSel.split('-').reverse().slice(0, 2).join('/')}` : 'Próximos eventos'}
+          {diaSel
+            ? `Eventos em ${diaSel.split('-').reverse().slice(0, 2).join('/')}`
+            : 'Próximos eventos'}
         </h2>
         {diaSel && (
-          <button type="button" onClick={limpar} className="ml-auto text-[13px] text-link hover:underline">
+          <button
+            type="button"
+            onClick={limpar}
+            className="ml-auto text-[13px] text-link hover:underline"
+          >
             ver todos
           </button>
         )}
       </div>
       {visiveis.length === 0 ? (
-        <Vazio titulo="Nenhum evento aprovado no período">Novos eventos aparecem aqui assim que são aprovados.</Vazio>
+        <Vazio titulo="Nenhum evento aprovado no período">
+          Novos eventos aparecem aqui assim que são aprovados.
+        </Vazio>
       ) : (
         <ol className="max-h-[720px] overflow-y-auto">
           {meses.map((m) => {
@@ -241,15 +294,25 @@ function ListaEventos({
                 )}
                 <ol>
                   {doMes.map((e) => (
-                    <li key={e.id} className="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-t border-[#ebebeb] px-4 py-3 first:border-t-0">
+                    <li
+                      key={e.id}
+                      className="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-t border-[#ebebeb] px-4 py-3 first:border-t-0"
+                    >
                       <div className="self-start border border-linha bg-white py-1 text-center">
-                        <b className="block text-[18px] leading-none text-uni tabular-nums">{e.data.slice(8)}</b>
-                        <span className="text-[10px] tracking-wide text-[#777] uppercase">{diaSemana(e.data)}</span>
+                        <b className="block text-[18px] leading-none text-uni tabular-nums">
+                          {e.data.slice(8)}
+                        </b>
+                        <span className="text-[10px] tracking-wide text-[#777] uppercase">
+                          {diaSemana(e.data)}
+                        </span>
                       </div>
                       <div className="grid min-w-0 gap-0.5 text-[13px] text-[#555]">
                         <b className="text-[14.5px] text-[#222]">{e.nome}</b>
                         <span className="flex items-center gap-1.5">
-                          <i className="size-2 shrink-0 rounded-[2px]" style={{ background: corTema(e.tema.id).cor }} />
+                          <i
+                            className="size-2 shrink-0 rounded-[2px]"
+                            style={{ background: corTema(e.tema.id).cor }}
+                          />
                           {e.tema.nome} · {horaBR(e.horaInicio)} às {horaBR(e.horaFim)}
                         </span>
                         <span>Local: {e.local}</span>
@@ -279,7 +342,9 @@ function agruparPorDia(eventos: AgendaEventoDTO[]) {
 function temasUsados(eventos: AgendaEventoDTO[]) {
   const vistos = new Map<number, string>();
   for (const e of eventos) vistos.set(e.tema.id, e.tema.nome);
-  return Array.from(vistos, ([id, nome]) => ({ id, nome })).sort((a, b) => a.nome.localeCompare(b.nome));
+  return Array.from(vistos, ([id, nome]) => ({ id, nome })).sort((a, b) =>
+    a.nome.localeCompare(b.nome),
+  );
 }
 
 /** Semanas completas (domingo a sábado) que cobrem o mês. */

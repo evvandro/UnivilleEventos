@@ -58,14 +58,21 @@ export const solicitacaoEnvioSchema = z
   .object({
     nome: obrigatorio('Informe o nome do evento'),
     temaId: idObrigatorio('Selecione o tema'),
-    data: z.preprocess(vazioParaNull, z.string({ error: 'Informe a data' }).regex(DATA, 'Data inválida')),
+    data: z.preprocess(
+      vazioParaNull,
+      z.string({ error: 'Informe a data' }).regex(DATA, 'Data inválida'),
+    ),
     horaInicio: z.preprocess(
       vazioParaNull,
-      z.string({ error: 'Informe o horário inicial' }).regex(HORA, 'Horário inválido (00:00 a 23:59)'),
+      z
+        .string({ error: 'Informe o horário inicial' })
+        .regex(HORA, 'Horário inválido (00:00 a 23:59)'),
     ),
     horaFim: z.preprocess(
       vazioParaNull,
-      z.string({ error: 'Informe o horário final' }).regex(HORA, 'Horário inválido (00:00 a 23:59)'),
+      z
+        .string({ error: 'Informe o horário final' })
+        .regex(HORA, 'Horário inválido (00:00 a 23:59)'),
     ),
     ambienteId: idObrigatorio('Selecione o local'),
     cursoId: idObrigatorio('Selecione o curso/coordenação'),

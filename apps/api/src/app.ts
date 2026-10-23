@@ -68,7 +68,9 @@ export async function criarApp() {
       return reply.sendFile('index.html');
     });
   } else {
-    app.setNotFoundHandler((_req, reply) => reply.status(404).send({ message: 'Rota não encontrada.' }));
+    app.setNotFoundHandler((_req, reply) =>
+      reply.status(404).send({ message: 'Rota não encontrada.' }),
+    );
   }
 
   return app;

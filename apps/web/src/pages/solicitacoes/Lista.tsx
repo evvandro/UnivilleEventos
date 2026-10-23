@@ -28,7 +28,8 @@ export default function MinhasSolicitacoes() {
   const { pedir, modal, errosEnvio } = useAcoes(() => recarregar());
 
   const lista = dados ?? [];
-  const contagem = (f: Filtro) => (f === 'TODAS' ? lista.length : lista.filter((s) => s.status === f).length);
+  const contagem = (f: Filtro) =>
+    f === 'TODAS' ? lista.length : lista.filter((s) => s.status === f).length;
   const visiveis = filtro === 'TODAS' ? lista : lista.filter((s) => s.status === filtro);
   const rejeitadas = lista.filter((s) => s.status === 'REJEITADO');
 
@@ -56,7 +57,12 @@ export default function MinhasSolicitacoes() {
       {rejeitadas.length > 0 && (
         <div className="mb-4">
           <Alerta tipo="aviso">
-            <b>{rejeitadas.length === 1 ? '1 solicitação foi rejeitada' : `${rejeitadas.length} solicitações foram rejeitadas`}.</b>{' '}
+            <b>
+              {rejeitadas.length === 1
+                ? '1 solicitação foi rejeitada'
+                : `${rejeitadas.length} solicitações foram rejeitadas`}
+              .
+            </b>{' '}
             Veja o motivo, corrija e reenvie.
           </Alerta>
         </div>
@@ -77,23 +83,42 @@ export default function MinhasSolicitacoes() {
       </div>
 
       <section className="cartao border-t-0">
-        {erro && <div className="p-4"><Alerta>{erro}</Alerta></div>}
+        {erro && (
+          <div className="p-4">
+            <Alerta>{erro}</Alerta>
+          </div>
+        )}
         {carregando && !dados ? (
           <Carregando />
         ) : visiveis.length === 0 ? (
-          <Vazio titulo={filtro === 'TODAS' ? 'Você ainda não fez nenhuma solicitação' : `Nenhuma solicitação em “${ROTULO_ABA[filtro]}”`}>
-            {filtro === 'TODAS' && <Link to="/solicitacoes/nova">Criar a primeira solicitação</Link>}
+          <Vazio
+            titulo={
+              filtro === 'TODAS'
+                ? 'Você ainda não fez nenhuma solicitação'
+                : `Nenhuma solicitação em “${ROTULO_ABA[filtro]}”`
+            }
+          >
+            {filtro === 'TODAS' && (
+              <Link to="/solicitacoes/nova">Criar a primeira solicitação</Link>
+            )}
           </Vazio>
         ) : (
           <ul>
             {visiveis.map((s) => (
-              <li key={s.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[#ebebeb] px-4 py-3 first:border-t-0">
+              <li
+                key={s.id}
+                className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[#ebebeb] px-4 py-3 first:border-t-0"
+              >
                 <div className="grid min-w-[220px] flex-1 gap-0.5">
-                  <Link to={`/solicitacoes/${s.id}`} className="truncate text-[15px] font-bold uppercase">
+                  <Link
+                    to={`/solicitacoes/${s.id}`}
+                    className="truncate text-[15px] font-bold uppercase"
+                  >
                     {s.nome ?? 'Solicitação sem nome'}
                   </Link>
                   <span className="text-[13px] text-suave">
-                    {dataBR(s.data)} · {faixaHorario(s.horaInicio, s.horaFim)} · {s.ambiente?.nome ?? 'sem local'}
+                    {dataBR(s.data)} · {faixaHorario(s.horaInicio, s.horaFim)} ·{' '}
+                    {s.ambiente?.nome ?? 'sem local'}
                   </span>
                   {s.status === 'REJEITADO' && s.motivoRejeicao && (
                     <span className="text-[13px] text-[#a94442]">Motivo: {s.motivoRejeicao}</span>
@@ -106,7 +131,9 @@ export default function MinhasSolicitacoes() {
                       {s.status === 'REJEITADO' ? 'Corrigir' : 'Editar'}
                     </LinkBotao>
                   ) : (
-                    <LinkBotao to={`/solicitacoes/${s.id}`} tamanho="sm">Ver</LinkBotao>
+                    <LinkBotao to={`/solicitacoes/${s.id}`} tamanho="sm">
+                      Ver
+                    </LinkBotao>
                   )}
                   {s.acoes.includes('enviar') && (
                     <Button tamanho="sm" variante="primario" onClick={() => pedir('enviar', s)}>
@@ -114,12 +141,22 @@ export default function MinhasSolicitacoes() {
                     </Button>
                   )}
                   {s.acoes.includes('cancelar') && (
-                    <Button tamanho="sm" variante="fantasma" className="text-[#a94442]" onClick={() => pedir('cancelar', s)}>
+                    <Button
+                      tamanho="sm"
+                      variante="fantasma"
+                      className="text-[#a94442]"
+                      onClick={() => pedir('cancelar', s)}
+                    >
                       Cancelar
                     </Button>
                   )}
                   {s.acoes.includes('excluir') && (
-                    <Button tamanho="sm" variante="fantasma" className="text-[#a94442]" onClick={() => pedir('excluir', s)}>
+                    <Button
+                      tamanho="sm"
+                      variante="fantasma"
+                      className="text-[#a94442]"
+                      onClick={() => pedir('excluir', s)}
+                    >
                       Excluir
                     </Button>
                   )}

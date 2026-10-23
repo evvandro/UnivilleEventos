@@ -1,4 +1,9 @@
-import { STATUS_LABEL, type OpcoesDTO, type RelatorioLinhaDTO, type Status } from '@univille/shared';
+import {
+  STATUS_LABEL,
+  type OpcoesDTO,
+  type RelatorioLinhaDTO,
+  type Status,
+} from '@univille/shared';
 import { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { Button, classesBotao } from '../../components/Button';
@@ -38,11 +43,21 @@ export default function AgendaImpressao() {
       <style>{'@page { size: A4 landscape; margin: 10mm; }'}</style>
 
       <div className="mx-auto mb-3 flex max-w-[1100px] flex-wrap items-center gap-2 print:hidden">
-        <Link to={`/admin/relatorios?${params}`} className={`${classesBotao('padrao')} no-underline`}>
+        <Link
+          to={`/admin/relatorios?${params}`}
+          className={`${classesBotao('padrao')} no-underline`}
+        >
           <Icon nome="voltar" className="size-4" /> Voltar aos relatórios
         </Link>
-        <span className="text-[13px] text-suave">Clique em Imprimir / Salvar PDF para salvar o arquivo</span>
-        <Button variante="primario" className="ml-auto" onClick={() => window.print()} disabled={!dados}>
+        <span className="text-[13px] text-suave">
+          Clique em Imprimir / Salvar PDF para salvar o arquivo
+        </span>
+        <Button
+          variante="primario"
+          className="ml-auto"
+          onClick={() => window.print()}
+          disabled={!dados}
+        >
           Imprimir / salvar PDF
         </Button>
       </div>
@@ -57,7 +72,11 @@ export default function AgendaImpressao() {
         <div className="px-6 pt-5 pb-2">
           {(curso || tema || status !== 'APROVADO') && (
             <p className="mb-2 text-[12.5px] text-[#555]">
-              {[curso && `Realização: ${curso}`, tema && `Tema: ${tema}`, status !== 'APROVADO' && `Situação: ${STATUS_LABEL[status]}`]
+              {[
+                curso && `Realização: ${curso}`,
+                tema && `Tema: ${tema}`,
+                status !== 'APROVADO' && `Situação: ${STATUS_LABEL[status]}`,
+              ]
                 .filter(Boolean)
                 .join(' · ')}
             </p>
@@ -66,7 +85,9 @@ export default function AgendaImpressao() {
           {carregando && !dados ? (
             <Carregando texto="Montando o relatório…" />
           ) : dados && dados.length === 0 ? (
-            <p className="py-10 text-center text-[15px] text-[#555]">Nenhum evento no período selecionado.</p>
+            <p className="py-10 text-center text-[15px] text-[#555]">
+              Nenhum evento no período selecionado.
+            </p>
           ) : (
             dados && (
               <table className="w-full border-collapse text-[12.5px] leading-snug [&_td]:border [&_td]:border-[#555] [&_td]:px-2 [&_td]:py-1.5 [&_td]:align-middle [&_th]:border [&_th]:border-[#555] [&_th]:bg-[#f0f0f0] [&_th]:px-2 [&_th]:py-1.5 [&_th]:[print-color-adjust:exact]">
@@ -87,8 +108,12 @@ export default function AgendaImpressao() {
                     <tr key={e.id} className="break-inside-avoid">
                       <td>{e.nome}</td>
                       <td className="text-center">{e.tema || '-'}</td>
-                      <td className="text-center whitespace-nowrap tabular-nums">{dataBR(e.data)}</td>
-                      <td className="text-center whitespace-nowrap tabular-nums">{horaCurta(e.horaInicio)}</td>
+                      <td className="text-center whitespace-nowrap tabular-nums">
+                        {dataBR(e.data)}
+                      </td>
+                      <td className="text-center whitespace-nowrap tabular-nums">
+                        {horaCurta(e.horaInicio)}
+                      </td>
                       <td className="text-center">{e.local}</td>
                       <td className="text-center">{e.publicoAlvo || '-'}</td>
                       <td className="text-center">{e.palestrante || '-'}</td>

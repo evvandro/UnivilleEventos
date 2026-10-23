@@ -32,7 +32,11 @@ export async function api<T = unknown>(
     if (resp.status === 401 && caminho !== '/auth/me' && caminho !== '/auth/login') {
       window.dispatchEvent(new Event('sessao-expirada'));
     }
-    throw new ApiError(resp.status, dados.message ?? 'Algo deu errado. Tente novamente.', dados.campos);
+    throw new ApiError(
+      resp.status,
+      dados.message ?? 'Algo deu errado. Tente novamente.',
+      dados.campos,
+    );
   }
   return dados;
 }

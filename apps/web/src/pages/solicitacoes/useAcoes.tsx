@@ -11,11 +11,20 @@ type AcaoDeEstado = Exclude<Acao, 'editar'>;
 
 const CONFIG: Record<
   AcaoDeEstado,
-  { titulo: string; texto: string; botao: string; variante: 'primario' | 'perigo' | 'sucesso'; sucesso: string; caminho: (id: number) => string; metodo: string }
+  {
+    titulo: string;
+    texto: string;
+    botao: string;
+    variante: 'primario' | 'perigo' | 'sucesso';
+    sucesso: string;
+    caminho: (id: number) => string;
+    metodo: string;
+  }
 > = {
   enviar: {
     titulo: 'Enviar para aprovação',
-    texto: 'A solicitação será analisada pelo setor de Eventos. Enquanto aguarda, você ainda pode editar ou cancelar.',
+    texto:
+      'A solicitação será analisada pelo setor de Eventos. Enquanto aguarda, você ainda pode editar ou cancelar.',
     botao: 'Enviar',
     variante: 'primario',
     sucesso: 'Solicitação enviada para aprovação.',
@@ -24,7 +33,8 @@ const CONFIG: Record<
   },
   cancelar: {
     titulo: 'Cancelar solicitação',
-    texto: 'O evento não aparecerá na agenda pública. O registro é mantido no histórico. Esta ação não pode ser desfeita.',
+    texto:
+      'O evento não aparecerá na agenda pública. O registro é mantido no histórico. Esta ação não pode ser desfeita.',
     botao: 'Cancelar solicitação',
     variante: 'perigo',
     sucesso: 'Solicitação cancelada.',
@@ -42,7 +52,8 @@ const CONFIG: Record<
   },
   aprovar: {
     titulo: 'Aprovar e publicar',
-    texto: 'O sistema verifica de novo se há conflito de local e horário. Se aprovado, o evento aparece na agenda pública.',
+    texto:
+      'O sistema verifica de novo se há conflito de local e horário. Se aprovado, o evento aparece na agenda pública.',
     botao: 'Aprovar e publicar',
     variante: 'sucesso',
     sucesso: 'Evento aprovado e publicado na agenda.',
@@ -118,14 +129,21 @@ export function useAcoes(aoConcluir: (acao: AcaoDeEstado, s: SolicitacaoDTO | un
           <Button onClick={fechar} disabled={executando}>
             Voltar
           </Button>
-          <Button variante={cfg?.variante} onClick={confirmar} carregando={executando} data-autofoco={pendente?.acao !== 'rejeitar' || undefined}>
+          <Button
+            variante={cfg?.variante}
+            onClick={confirmar}
+            carregando={executando}
+            data-autofoco={pendente?.acao !== 'rejeitar' || undefined}
+          >
             {cfg?.botao}
           </Button>
         </>
       }
     >
       <div className="grid gap-3">
-        {pendente && <p className="text-[14px] font-bold">{pendente.s.nome ?? 'Solicitação sem nome'}</p>}
+        {pendente && (
+          <p className="text-[14px] font-bold">{pendente.s.nome ?? 'Solicitação sem nome'}</p>
+        )}
         <p className="text-[14px] text-[#555]">{cfg?.texto}</p>
         {pendente?.acao === 'rejeitar' && (
           <Field id="motivo" rotulo="Motivo da rejeição" obrigatorio erro={erroMotivo}>

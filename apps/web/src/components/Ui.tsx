@@ -36,7 +36,9 @@ export function PageHeader({
       )}
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-[24px] leading-tight font-bold tracking-tight text-[#222] text-balance">{titulo}</h1>
+          <h1 className="text-[24px] leading-tight font-bold tracking-tight text-[#222] text-balance">
+            {titulo}
+          </h1>
           {subtitulo && <p className="mt-1 text-[14px] text-suave">{subtitulo}</p>}
         </div>
         {acoes && <div className="flex flex-wrap gap-2">{acoes}</div>}
@@ -59,7 +61,10 @@ export function Alerta({
     info: 'border-[#bce8f1] bg-[#d9edf7] text-[#31708f]',
   }[tipo];
   return (
-    <div role={tipo === 'erro' ? 'alert' : undefined} className={`rounded-[3px] border px-3 py-2.5 text-[14px] ${cor}`}>
+    <div
+      role={tipo === 'erro' ? 'alert' : undefined}
+      className={`rounded-[3px] border px-3 py-2.5 text-[14px] ${cor}`}
+    >
       {children}
     </div>
   );
@@ -76,7 +81,10 @@ export function Vazio({ titulo, children }: { titulo: string; children?: ReactNo
 
 export function Carregando({ texto = 'Carregando…' }: { texto?: string }) {
   return (
-    <div className="flex items-center justify-center gap-2 py-12 text-[14px] text-suave" role="status">
+    <div
+      className="flex items-center justify-center gap-2 py-12 text-[14px] text-suave"
+      role="status"
+    >
       <span className="size-4 animate-spin rounded-full border-2 border-suave border-r-transparent" />
       {texto}
     </div>
@@ -107,7 +115,9 @@ export function Abas<T extends string>({
             aria-selected={on}
             onClick={() => onChange(i.valor)}
             className={`shrink-0 rounded-t-[3px] border border-b-0 px-3.5 py-2 text-[14px] whitespace-nowrap ${
-              on ? 'border-linha bg-white font-bold text-[#555]' : 'border-transparent text-link hover:bg-[#eee]'
+              on
+                ? 'border-linha bg-white font-bold text-[#555]'
+                : 'border-transparent text-link hover:bg-[#eee]'
             }`}
           >
             {i.rotulo}

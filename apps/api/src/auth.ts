@@ -54,7 +54,13 @@ export async function autenticar(req: FastifyRequest) {
   }
   const u = await prisma.usuario.findUnique({ where: { id: req.user.sub } });
   if (!u || !u.ativo) throw new AppError(401, 'Sua sessão expirou. Entre novamente.');
-  req.usuario = { id: u.id, matricula: u.matricula, nome: u.nome, email: u.email, perfil: u.perfil };
+  req.usuario = {
+    id: u.id,
+    matricula: u.matricula,
+    nome: u.nome,
+    email: u.email,
+    perfil: u.perfil,
+  };
 }
 
 /** preHandler: exige perfil administrador (usar depois de autenticar). */

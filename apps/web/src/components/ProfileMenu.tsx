@@ -53,7 +53,9 @@ export function ProfileMenu({ mostrarMinhaArea }: { mostrarMinhaArea?: boolean }
         <span className="grid size-8 place-items-center rounded-full border-2 border-white/70 bg-white/15 text-[12px] font-bold">
           {iniciais(usuario.nome)}
         </span>
-        <span className="hidden max-w-[180px] truncate text-[13px] font-bold uppercase sm:inline">{usuario.nome}</span>
+        <span className="hidden max-w-[180px] truncate text-[13px] font-bold uppercase sm:inline">
+          {usuario.nome}
+        </span>
         <span className="text-[10px] opacity-80">▼</span>
       </button>
       {aberto && (
@@ -64,7 +66,9 @@ export function ProfileMenu({ mostrarMinhaArea }: { mostrarMinhaArea?: boolean }
           <div className="border-b border-[#eee] px-4 py-2.5">
             <p className="truncate text-[14px] font-bold">{usuario.nome}</p>
             <p className="truncate text-[12.5px] text-suave">Matrícula {usuario.matricula}</p>
-            <p className="mt-1 text-[11.5px] font-bold tracking-wide text-uni uppercase">{PERFIL_LABEL[usuario.perfil]}</p>
+            <p className="mt-1 text-[11.5px] font-bold tracking-wide text-uni uppercase">
+              {PERFIL_LABEL[usuario.perfil]}
+            </p>
           </div>
           {mostrarMinhaArea && (
             <MenuItem to={inicioDoPerfil(usuario)} icone="lista" onClick={() => setAberto(false)}>

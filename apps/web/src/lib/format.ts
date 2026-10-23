@@ -1,11 +1,22 @@
 const MESES = [
-  'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
+  'janeiro',
+  'fevereiro',
+  'março',
+  'abril',
+  'maio',
+  'junho',
+  'julho',
+  'agosto',
+  'setembro',
+  'outubro',
+  'novembro',
+  'dezembro',
 ];
 const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
 
 /** 'YYYY-MM-DD' → '06/11/2026' */
-export const dataBR = (d: string | null | undefined) => (d ? d.split('-').reverse().join('/') : '—');
+export const dataBR = (d: string | null | undefined) =>
+  d ? d.split('-').reverse().join('/') : '—';
 
 /** 'YYYY-MM-DD' → '06/11' */
 export const diaMes = (d: string) => d.slice(8, 10) + '/' + d.slice(5, 7);
@@ -20,7 +31,7 @@ export const faixaHorario = (i: string | null, f: string | null) =>
 export function nomeMes(mes: string, comAno = true) {
   const [a, m] = mes.split('-').map(Number);
   const n = MESES[m - 1];
-  return (n[0].toUpperCase() + n.slice(1)) + (comAno ? ` ${a}` : '');
+  return n[0].toUpperCase() + n.slice(1) + (comAno ? ` ${a}` : '');
 }
 
 export const diaSemana = (d: string) => DIAS[new Date(`${d}T12:00:00Z`).getUTCDay()];

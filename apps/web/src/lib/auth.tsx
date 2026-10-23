@@ -1,5 +1,13 @@
 import type { UsuarioSessao } from '@univille/shared';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import { api } from './api';
 
 type AuthCtx = {
@@ -26,7 +34,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const entrar = useCallback(async (matricula: string, senha: string) => {
-    const u = await api<UsuarioSessao>('/auth/login', { method: 'POST', body: { matricula, senha } });
+    const u = await api<UsuarioSessao>('/auth/login', {
+      method: 'POST',
+      body: { matricula, senha },
+    });
     setUsuario(u);
     return u;
   }, []);
@@ -36,7 +47,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUsuario(null);
   }, []);
 
-  const valor = useMemo(() => ({ usuario, carregando, entrar, sair }), [usuario, carregando, entrar, sair]);
+  const valor = useMemo(
+    () => ({ usuario, carregando, entrar, sair }),
+    [usuario, carregando, entrar, sair],
+  );
   return <Ctx.Provider value={valor}>{children}</Ctx.Provider>;
 }
 

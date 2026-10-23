@@ -37,7 +37,12 @@ export function AppLayout() {
     { para: '/solicitacoes/nova', rotulo: 'Nova solicitação', icone: 'mais' },
   ];
   const admin: Item[] = [
-    { para: '/admin/solicitacoes', rotulo: 'Fila de aprovação', icone: 'fila', contador: pendentes },
+    {
+      para: '/admin/solicitacoes',
+      rotulo: 'Fila de aprovação',
+      icone: 'fila',
+      contador: pendentes,
+    },
     { para: '/admin/cadastros', rotulo: 'Cadastros', icone: 'cadastro' },
     { para: '/admin/usuarios', rotulo: 'Usuários', icone: 'usuarios' },
     { para: '/admin/relatorios', rotulo: 'Relatórios', icone: 'relatorio' },
@@ -77,7 +82,12 @@ export function AppLayout() {
             <span role="img" aria-label="Univille" className="logo-verde h-7 w-[125px]" />
             <span className="text-[12px] font-bold text-[#5aa83c]">eventos</span>
           </div>
-          <button type="button" onClick={() => setAberto(false)} aria-label="Fechar menu" className="text-suave">
+          <button
+            type="button"
+            onClick={() => setAberto(false)}
+            aria-label="Fechar menu"
+            className="text-suave"
+          >
             <Icon nome="fechar" />
           </button>
         </div>
@@ -109,7 +119,9 @@ function Grupo({ titulo, itens }: { titulo?: string; itens: Item[] }) {
   return (
     <div className="py-1">
       {titulo && (
-        <p className="px-4 pt-3 pb-1 text-[11.5px] font-bold tracking-[.08em] text-suave uppercase">{titulo}</p>
+        <p className="px-4 pt-3 pb-1 text-[11.5px] font-bold tracking-[.08em] text-suave uppercase">
+          {titulo}
+        </p>
       )}
       <ul>
         {itens.map((i) => (

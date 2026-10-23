@@ -47,13 +47,13 @@ npm run dev          # API (porta 3333) + front: http://localhost:5173
 
 Nas próximas vezes basta `npm run db:up` e `npm run dev`. Para parar o banco: `npm run db:down`.
 
-Outros comandos: `npm test`, `npm run typecheck`, `npm run build` e `npm start` (produção, porta 3333).
+Outros comandos: `npm test`, `npm run typecheck`, `npm run lint` (ESLint), `npm run prettier` (formata o código), `npm run build` e `npm start` (produção, porta 3333).
 
 **Problemas comuns**
 
-- *Porta 5432 ocupada:* já existe outro Postgres rodando na máquina. Pare-o ou mude a porta em `docker-compose.dev.yml` e no `DATABASE_URL` de `apps/api/.env`.
-- *Porta 5173 ocupada:* o Vite usa a próxima livre (5174, 5175...). Veja o endereço que aparece no terminal.
-- *`docker: command not found` ou erro de conexão:* abra o Docker Desktop antes do `npm run db:up`.
+- _Porta 5432 ocupada:_ já existe outro Postgres rodando na máquina. Pare-o ou mude a porta em `docker-compose.dev.yml` e no `DATABASE_URL` de `apps/api/.env`.
+- _Porta 5173 ocupada:_ o Vite usa a próxima livre (5174, 5175...). Veja o endereço que aparece no terminal.
+- _`docker: command not found` ou erro de conexão:_ abra o Docker Desktop antes do `npm run db:up`.
 
 ## Banco
 
@@ -90,11 +90,11 @@ Usamos o Claude Code no planejamento, no código, nos testes e na documentação
 
 Para a validação, a equipe optou por orquestrar agentes especializados. Cada agente fica responsável por uma parte específica do sistema e só testa e reporta, sem alterar código. As correções foram feitas depois, a partir dos relatórios.
 
-| Agente | Responsabilidade |
-|---|---|
-| Segurança | Autenticação, proteção contra força bruta, SQL injection, sessão JWT e permissões por perfil (visitante, solicitante e administrador). |
-| Funcional | Testa cada tela como um usuário real: formulários, validações de campos e os cenários de uso de cada perfil. |
-| API e dados | Estrutura da API, limites de requisição, tabelas, constraints e índices do banco, e os relatórios (tela, CSV e impressão). |
-| Regras de negócio | Confere cada regra do caderno do desafio contra o sistema e aponta o que falta ou foi implementado diferente. |
+| Agente            | Responsabilidade                                                                                                                       |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Segurança         | Autenticação, proteção contra força bruta, SQL injection, sessão JWT e permissões por perfil (visitante, solicitante e administrador). |
+| Funcional         | Testa cada tela como um usuário real: formulários, validações de campos e os cenários de uso de cada perfil.                           |
+| API e dados       | Estrutura da API, limites de requisição, tabelas, constraints e índices do banco, e os relatórios (tela, CSV e impressão).             |
+| Regras de negócio | Confere cada regra do caderno do desafio contra o sistema e aponta o que falta ou foi implementado diferente.                          |
 
 Dividir a revisão assim deixou cada análise mais profunda e ajudou a achar problemas que passariam numa revisão geral. Dois exemplos: a condição de corrida entre duas aprovações simultâneas e mensagens de erro que ainda apareciam em inglês.

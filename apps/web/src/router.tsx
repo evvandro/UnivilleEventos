@@ -41,7 +41,10 @@ export const router = createBrowserRouter([
             element: <RequireAdmin />,
             children: [
               { path: '/admin/solicitacoes', element: <Fila /> },
-              { path: '/admin/cadastros', element: <Navigate to="/admin/cadastros/temas" replace /> },
+              {
+                path: '/admin/cadastros',
+                element: <Navigate to="/admin/cadastros/temas" replace />,
+              },
               { path: '/admin/cadastros/:tipo', element: <Cadastros /> },
               { path: '/admin/usuarios', element: <Usuarios /> },
               { path: '/admin/relatorios', element: <Relatorios /> },

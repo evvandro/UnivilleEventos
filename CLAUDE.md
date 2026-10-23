@@ -1,16 +1,19 @@
 # CLAUDE.md — Univille Eventos
 
 ## Regras do desafio
+
 - Proibido Lovable/Bolt. ChatGPT/Copilot/Claude são permitidos **com transparência no README**.
 - Componentes genéricos reutilizados precisam ser declarados no README.
 - Só dados fictícios. Nada de segredo, token ou credencial real no repo (`.env` fora do git; `.env.example` dentro).
 - README: nome da equipe e integrantes, resumo, tecnologias, instalação/execução, configuração do banco, usuários de teste, componentes reutilizados, IA usada.
 
 ## Domínio
+
 Perfis: **Visitante** (público, sem login), **Solicitante**, **Administrador**. Sem autocadastro, sem recuperação de senha. Senha com hash.
 Login: **matrícula + senha** (decisão do PO; o caderno 6.4 fala em "e-mail único (login)"). Por enquanto a matrícula só precisa ter dígitos e no futuro virá do sistema acadêmico. O e-mail continua obrigatório e único no cadastro.
 
 Estados da solicitação:
+
 - `RASCUNHO`: pode estar incompleto; o autor edita ou exclui.
 - `AGUARDANDO`: o autor edita ou cancela; o admin aprova ou rejeita.
 - `REJEITADO`: justificativa obrigatória, visível ao autor; o autor corrige e reenvia.
@@ -18,6 +21,7 @@ Estados da solicitação:
 - `CANCELADO`: não aparece no público; o registro é mantido.
 
 Regras:
+
 - Campos obrigatórios no ENVIO: nome, tema, data, hora início/fim, local, curso/coordenação, solicitante (texto livre), palestrante, público-alvo, justificativa, objetivo, cerimonial, haverá inscrições, necessidade de declarações (as três últimas são sim/não). Opcionais: recursos, observações.
 - Centro de custo vem automaticamente do curso/coordenação.
 - O ambiente determina os recursos selecionáveis. Um evento ocupa um ambiente em um único dia; o fim deve ser depois do início; data atual ou futura; horário entre 00h00 e 23h59.
@@ -31,7 +35,9 @@ Regras:
 - O seed precisa cobrir usuários, locais, recursos, temas, cursos e eventos em todos os estados.
 
 ## Stack e estrutura (implementado)
+
 Monorepo com npm workspaces:
+
 - `packages/shared`: schemas Zod (rascunho × envio), enums, DTOs e `errosPorCampo`. É consumido como TS direto, sem build.
 - `apps/api`: Fastify 5 + Prisma 6 + PostgreSQL 16, rodando com `tsx`. Módulos em `src/modules/<dominio>/routes.ts`.
   - O domínio de solicitações fica em `modules/solicitacoes/`:
@@ -46,7 +52,8 @@ Monorepo com npm workspaces:
     - `AppLayout`: botão Menu → gaveta lateral (`components/Overlay.tsx` Drawer) com grupo Administração só para admin, mais o ProfileMenu com Sair.
 - Auth: JWT em cookie httpOnly `univille_token` (8h); preHandlers `autenticar` e `exigirAdmin` em `apps/api/src/auth.ts`.
 
-Comandos: `npm run db:up` | `db:migrate` | `db:seed` | `dev` | `test` | `typecheck` | `build` | `start`.
+Comandos: `npm run db:up` | `db:migrate` | `db:seed` | `dev` | `test` | `typecheck` | `lint` | `prettier` | `build` | `start`. Antes de commitar: `npm run lint` e `npm run prettier`.
+
 - O seed APAGA os dados.
 - `prisma migrate reset` exige consentimento explícito do usuário (o Prisma bloqueia agentes). Para corrigir uma migration falha, prefira `prisma migrate resolve --rolled-back <nome>` + `migrate deploy`.
 - Mudança de schema: escrever uma nova pasta em `prisma/migrations/` com o SQL. A `EXCLUDE` e o `CHECK` não são representáveis no schema.prisma; evite `migrate dev`, que tenta gerar o diff.
@@ -54,6 +61,7 @@ Comandos: `npm run db:up` | `db:migrate` | `db:seed` | `dev` | `test` | `typeche
 Horários: data `YYYY-MM-DD` e hora `HH:mm` "de parede", guardadas em `timestamp` sem fuso. A `Date` em UTC é só um contêiner (`src/tempo.ts`). "Hoje" usa `America/Sao_Paulo`.
 
 Segurança já implementada:
+
 - `@fastify/helmet`;
 - `@fastify/rate-limit` (teto global por IP, `RATE_LIMIT_MAX`);
 - força bruta no login em `modules/auth/tentativas.ts`: conta só erros, 5 por conta+IP e 20 por IP a cada 15 min, em memória;
@@ -66,6 +74,7 @@ Agentes de QA em `.claude/agents/`: `qa-seguranca`, `qa-funcional` e `qa-api-dad
 Deploy (pendente, quem configura é o usuário): AWS free tier com uma única EC2, Postgres em container e `npm start` servindo a API + `apps/web/dist` na porta 3333. **Antes de mexer na parte AWS, avisar o usuário.**
 
 ## Identidade visual (base: clone do login Enturma em ~/Desktop/Facul/univille)
+
 - Fonte: `"Helvetica Neue", Helvetica, Arial, sans-serif` (só ela).
 - Barra superior verde `#00562b`, 58px. Fundo de login: `bg.png` (pôr do sol borrado, em `docs/bg.png`) com uma caixa branca de sombra leve.
 - Botão primário azul `#347bb7` (borda `#2e6da4`, hover `#286090`); links `#337ab7`; campos lavanda `#e9f0fe` com borda `#a6a7b1`.
@@ -73,6 +82,7 @@ Deploy (pendente, quem configura é o usuário): AWS free tier com uma única EC
 - Referência das telas: `docs/proposta.html`.
 
 ## Padrões de código
+
 - Regras de negócio e permissões **sempre no servidor**; o front só espelha.
 - API por módulo: regras de negócio num `service.ts` (ex.: `modules/solicitacoes/service.ts`, com as transições centralizadas em `transicoes.ts`). Módulos só de leitura/CRUD simples (agenda, relatórios, usuários, cadastros) podem consultar o Prisma na própria rota; ao ganharem regra, extraia um service.
 - Validação de rascunho (parcial) e de envio (completa) com schemas Zod em `packages/shared`.

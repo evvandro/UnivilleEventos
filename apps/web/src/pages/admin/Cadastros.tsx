@@ -15,7 +15,14 @@ import { useApi } from '../../lib/useApi';
 type Item = { id: number } & Record<string, unknown>;
 type Campo =
   | { nome: string; rotulo: string; tipo: 'texto' | 'numero'; obrigatorio?: boolean; dica?: string }
-  | { nome: string; rotulo: string; tipo: 'select'; fonte: string; obrigatorio?: boolean; rotuloOpcao: (o: Item) => string }
+  | {
+      nome: string;
+      rotulo: string;
+      tipo: 'select';
+      fonte: string;
+      obrigatorio?: boolean;
+      rotuloOpcao: (o: Item) => string;
+    }
   | { nome: string; rotulo: string; tipo: 'multi'; fonte: string; dica?: string };
 
 type Config = {
@@ -46,16 +53,29 @@ const TIPOS: Record<string, Config> = {
     campos: [
       nomeCampo,
       { nome: 'capacidade', rotulo: 'Capacidade (lugares)', tipo: 'numero' },
-      { nome: 'recursoIds', rotulo: 'Recursos disponíveis neste ambiente', tipo: 'multi', fonte: '/admin/recursos', dica: 'Só estes recursos aparecem para marcação na solicitação.' },
+      {
+        nome: 'recursoIds',
+        rotulo: 'Recursos disponíveis neste ambiente',
+        tipo: 'multi',
+        fonte: '/admin/recursos',
+        dica: 'Só estes recursos aparecem para marcação na solicitação.',
+      },
     ],
     colunas: [
       nomeCol,
       { titulo: 'Capacidade', valor: (i) => (i.capacidade ? String(i.capacidade) : '—') },
-      { titulo: 'Recursos', valor: (i) => (i as unknown as AmbienteDTO).recursos.map((r) => r.nome).join(', ') || '—' },
+      {
+        titulo: 'Recursos',
+        valor: (i) => (i as unknown as AmbienteDTO).recursos.map((r) => r.nome).join(', ') || '—',
+      },
     ],
     paraForm: (i) => {
       const a = i as unknown as AmbienteDTO;
-      return { nome: a.nome, capacidade: a.capacidade ?? '', recursoIds: a.recursos.map((r) => r.id) };
+      return {
+        nome: a.nome,
+        capacidade: a.capacidade ?? '',
+        recursoIds: a.recursos.map((r) => r.id),
+      };
     },
   },
   recursos: {
@@ -83,7 +103,13 @@ const TIPOS: Record<string, Config> = {
     ],
     colunas: [
       nomeCol,
-      { titulo: 'Centro de custo', valor: (i) => { const c = (i as unknown as CursoDTO).centroCusto; return `${c.codigo} · ${c.descricao}`; } },
+      {
+        titulo: 'Centro de custo',
+        valor: (i) => {
+          const c = (i as unknown as CursoDTO).centroCusto;
+          return `${c.codigo} · ${c.descricao}`;
+        },
+      },
     ],
     paraForm: (i) => ({ nome: i.nome, centroCustoId: i.centroCustoId }),
   },
@@ -161,7 +187,11 @@ function Tabela({ cfg }: { cfg: Config }) {
           <Icon nome="mais" className="size-4" /> Novo {cfg.singular}
         </Button>
       </div>
-      {erro && <div className="p-4"><Alerta>{erro}</Alerta></div>}
+      {erro && (
+        <div className="p-4">
+          <Alerta>{erro}</Alerta>
+        </div>
+      )}
       {carregando && !dados ? (
         <Carregando />
       ) : !dados?.length ? (
@@ -171,17 +201,31 @@ function Tabela({ cfg }: { cfg: Config }) {
           <table className="tabela">
             <thead>
               <tr>
-                {cfg.colunas.map((c) => <th key={c.titulo}>{c.titulo}</th>)}
+                {cfg.colunas.map((c) => (
+                  <th key={c.titulo}>{c.titulo}</th>
+                ))}
                 <th className="w-px text-right">Ações</th>
               </tr>
             </thead>
             <tbody>
               {dados.map((i) => (
                 <tr key={i.id}>
-                  {cfg.colunas.map((c) => <td key={c.titulo}>{c.valor(i)}</td>)}
+                  {cfg.colunas.map((c) => (
+                    <td key={c.titulo}>{c.valor(i)}</td>
+                  ))}
                   <td className="text-right whitespace-nowrap">
-                    <Button variante="fantasma" tamanho="sm" onClick={() => setEditando(i)}>Editar</Button>
-                    <Button variante="fantasma" tamanho="sm" className="text-[#a94442]" onClick={() => { setErroExcluir(null); setExcluindo(i); }}>
+                    <Button variante="fantasma" tamanho="sm" onClick={() => setEditando(i)}>
+                      Editar
+                    </Button>
+                    <Button
+                      variante="fantasma"
+                      tamanho="sm"
+                      className="text-[#a94442]"
+                      onClick={() => {
+                        setErroExcluir(null);
+                        setExcluindo(i);
+                      }}
+                    >
                       Excluir
                     </Button>
                   </td>
@@ -210,14 +254,19 @@ function Tabela({ cfg }: { cfg: Config }) {
         titulo={`Excluir ${cfg.singular}`}
         rodape={
           <>
-            <Button onClick={() => setExcluindo(null)} disabled={ocupado}>Voltar</Button>
-            <Button variante="perigo" onClick={excluir} carregando={ocupado} data-autofoco>Excluir</Button>
+            <Button onClick={() => setExcluindo(null)} disabled={ocupado}>
+              Voltar
+            </Button>
+            <Button variante="perigo" onClick={excluir} carregando={ocupado} data-autofoco>
+              Excluir
+            </Button>
           </>
         }
       >
         <div className="grid gap-3 text-[14px]">
           <p>
-            Excluir <b>{String(excluindo?.nome ?? excluindo?.codigo ?? '')}</b>? Esta ação não pode ser desfeita.
+            Excluir <b>{String(excluindo?.nome ?? excluindo?.codigo ?? '')}</b>? Esta ação não pode
+            ser desfeita.
           </p>
           {erroExcluir && <Alerta tipo="aviso">{erroExcluir}</Alerta>}
         </div>
@@ -226,10 +275,22 @@ function Tabela({ cfg }: { cfg: Config }) {
   );
 }
 
-function FormItem({ cfg, item, fechar, salvo }: { cfg: Config; item: Item | null; fechar: () => void; salvo: () => void }) {
+function FormItem({
+  cfg,
+  item,
+  fechar,
+  salvo,
+}: {
+  cfg: Config;
+  item: Item | null;
+  fechar: () => void;
+  salvo: () => void;
+}) {
   const toast = useToast();
   const [valores, setValores] = useState<Record<string, unknown>>(() =>
-    item ? cfg.paraForm(item) : Object.fromEntries(cfg.campos.map((c) => [c.nome, c.tipo === 'multi' ? [] : ''])),
+    item
+      ? cfg.paraForm(item)
+      : Object.fromEntries(cfg.campos.map((c) => [c.nome, c.tipo === 'multi' ? [] : ''])),
   );
   const [erros, setErros] = useState<Record<string, string>>({});
   const [erro, setErro] = useState<string | null>(null);
@@ -240,7 +301,10 @@ function FormItem({ cfg, item, fechar, salvo }: { cfg: Config; item: Item | null
     setSalvando(true);
     setErro(null);
     try {
-      await api(item ? `${cfg.caminho}/${item.id}` : cfg.caminho, { method: item ? 'PUT' : 'POST', body: valores });
+      await api(item ? `${cfg.caminho}/${item.id}` : cfg.caminho, {
+        method: item ? 'PUT' : 'POST',
+        body: valores,
+      });
       toast.sucesso(item ? 'Alterações salvas.' : `${capitalizar(cfg.singular)} cadastrado.`);
       salvo();
     } catch (err) {
@@ -258,8 +322,12 @@ function FormItem({ cfg, item, fechar, salvo }: { cfg: Config; item: Item | null
       titulo={item ? `Editar ${cfg.singular}` : `Novo ${cfg.singular}`}
       rodape={
         <>
-          <Button onClick={fechar} disabled={salvando}>Cancelar</Button>
-          <Button variante="primario" onClick={() => onSubmit()} carregando={salvando}>Salvar</Button>
+          <Button onClick={fechar} disabled={salvando}>
+            Cancelar
+          </Button>
+          <Button variante="primario" onClick={() => onSubmit()} carregando={salvando}>
+            Salvar
+          </Button>
         </>
       }
     >
@@ -280,11 +348,28 @@ function FormItem({ cfg, item, fechar, salvo }: { cfg: Config; item: Item | null
   );
 }
 
-function CampoCadastro({ campo, valor, erro, onChange }: { campo: Campo; valor: unknown; erro?: string; onChange: (v: unknown) => void }) {
+function CampoCadastro({
+  campo,
+  valor,
+  erro,
+  onChange,
+}: {
+  campo: Campo;
+  valor: unknown;
+  erro?: string;
+  onChange: (v: unknown) => void;
+}) {
   const id = `cad-${campo.nome}`;
-  if (campo.tipo === 'select' || campo.tipo === 'multi') return <CampoComFonte campo={campo} id={id} valor={valor} erro={erro} onChange={onChange} />;
+  if (campo.tipo === 'select' || campo.tipo === 'multi')
+    return <CampoComFonte campo={campo} id={id} valor={valor} erro={erro} onChange={onChange} />;
   return (
-    <Field id={id} rotulo={campo.rotulo} obrigatorio={campo.obrigatorio} erro={erro} dica={campo.dica}>
+    <Field
+      id={id}
+      rotulo={campo.rotulo}
+      obrigatorio={campo.obrigatorio}
+      erro={erro}
+      dica={campo.dica}
+    >
       <input
         id={id}
         type={campo.tipo === 'numero' ? 'number' : 'text'}
@@ -314,9 +399,18 @@ function CampoComFonte({
   if (campo.tipo === 'select') {
     return (
       <Field id={id} rotulo={campo.rotulo} obrigatorio={campo.obrigatorio} erro={erro}>
-        <select id={id} className={classeCampo(erro)} value={String(valor ?? '')} onChange={(e) => onChange(e.target.value)}>
+        <select
+          id={id}
+          className={classeCampo(erro)}
+          value={String(valor ?? '')}
+          onChange={(e) => onChange(e.target.value)}
+        >
           <option value="">Selecione…</option>
-          {dados?.map((o) => <option key={o.id} value={o.id}>{campo.rotuloOpcao(o)}</option>)}
+          {dados?.map((o) => (
+            <option key={o.id} value={o.id}>
+              {campo.rotuloOpcao(o)}
+            </option>
+          ))}
         </select>
       </Field>
     );
@@ -332,7 +426,11 @@ function CampoComFonte({
               type="checkbox"
               className="size-4 accent-azul"
               checked={marcados.includes(o.id)}
-              onChange={(e) => onChange(e.target.checked ? [...marcados, o.id] : marcados.filter((x) => x !== o.id))}
+              onChange={(e) =>
+                onChange(
+                  e.target.checked ? [...marcados, o.id] : marcados.filter((x) => x !== o.id),
+                )
+              }
             />
             {o.nome}
           </label>

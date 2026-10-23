@@ -28,7 +28,8 @@ export default function Configuracoes() {
       await api('/admin/configuracoes', { method: 'PUT', body: { mesesAgendaPublica: meses } });
       toast.sucesso('Configuração salva. A agenda pública já usa o novo período.');
     } catch (err) {
-      if (err instanceof ApiError && err.campos.mesesAgendaPublica) setErroCampo(err.campos.mesesAgendaPublica);
+      if (err instanceof ApiError && err.campos.mesesAgendaPublica)
+        setErroCampo(err.campos.mesesAgendaPublica);
       else setErro(mensagemDe(err));
     } finally {
       setSalvando(false);
@@ -38,7 +39,10 @@ export default function Configuracoes() {
   const n = Number(meses);
   return (
     <>
-      <PageHeader titulo="Configurações" migalhas={[{ rotulo: 'Administração' }, { rotulo: 'Configurações' }]} />
+      <PageHeader
+        titulo="Configurações"
+        migalhas={[{ rotulo: 'Administração' }, { rotulo: 'Configurações' }]}
+      />
       {carregando && !dados ? (
         <Carregando />
       ) : (
@@ -62,10 +66,14 @@ export default function Configuracoes() {
             />
           </Field>
           {n >= MESES_AGENDA_MINIMO && (
-            <p className="text-[14px] text-[#555]">A agenda mostrará o mês atual e os {n - 1} meses seguintes.</p>
+            <p className="text-[14px] text-[#555]">
+              A agenda mostrará o mês atual e os {n - 1} meses seguintes.
+            </p>
           )}
           <div>
-            <Button type="submit" variante="primario" carregando={salvando}>Salvar</Button>
+            <Button type="submit" variante="primario" carregando={salvando}>
+              Salvar
+            </Button>
           </div>
         </form>
       )}
