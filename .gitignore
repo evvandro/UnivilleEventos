@@ -6,3 +6,7 @@ dist/
 .vite/
 coverage/
 .vitest/
+
+# Material local (fotos do caderno, proposta e agentes de QA)
+Docs/
+.claude/
