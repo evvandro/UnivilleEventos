@@ -27,10 +27,16 @@ export async function criarApp() {
   });
 
   registrarTratamentoDeErros(app);
+  // Só pede HTTPS ao navegador quando o site está de fato em HTTPS (mesma regra do cookie).
+  const emHttps = process.env.NODE_ENV === 'production' && process.env.COOKIE_SECURE !== 'false';
   await app.register(helmet, {
-    // Front e API na mesma origem; React usa atributos style inline.
+    hsts: emHttps,
     contentSecurityPolicy: {
-      directives: { 'style-src': ["'self'", "'unsafe-inline'"], 'img-src': ["'self'", 'data:'] },
+      directives: {
+        'style-src': ["'self'", "'unsafe-inline'"],
+        'img-src': ["'self'", 'data:'],
+        'upgrade-insecure-requests': emHttps ? [] : null,
+      },
     },
   });
   // Teto geral por IP (configurável). O login tem um limite próprio, bem menor.
