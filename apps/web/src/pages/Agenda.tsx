@@ -43,14 +43,7 @@ export default function Agenda() {
             Agenda de eventos institucionais
           </h1>
           <p className="mt-3 max-w-[52ch] text-[16px] opacity-95">
-            Palestras, oficinas, congressos e solenidades aprovados pelo setor de Eventos
-            {meses.length > 0 && (
-              <>
-                {' '}
-                de {nomeMes(meses[0], false).toLowerCase()} a {nomeMes(meses[meses.length - 1]).toLowerCase()}
-              </>
-            )}
-            .
+            Palestras, oficinas, congressos e solenidades. 
           </p>
         </div>
       </section>

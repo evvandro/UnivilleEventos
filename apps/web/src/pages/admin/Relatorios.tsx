@@ -33,7 +33,7 @@ export default function Relatorios() {
       <PageHeader
         titulo="Relatórios"
         migalhas={[{ rotulo: 'Administração' }, { rotulo: 'Relatórios' }]}
-        subtitulo="Eventos enviados ao setor (rascunhos não entram). Os filtros funcionam sozinhos ou combinados. A agenda para impressão usa os mesmos filtros e, sem situação escolhida, mostra só os aprovados."
+        subtitulo="Eventos enviados ao setor. Os filtros funcionam sozinhos ou combinados."
       />
       <form onSubmit={filtrar} className="cartao mb-4 flex flex-wrap items-end gap-3 p-4">
         <Field id="f-de" rotulo="De" className="w-[150px]">

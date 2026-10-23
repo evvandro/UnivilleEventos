@@ -38,9 +38,11 @@ export default function Perfil() {
           <dt className="font-bold text-[#555]">Perfil</dt>
           <dd>{PERFIL_LABEL[usuario.perfil]}</dd>
         </dl>
-        <p className="px-5 text-[13px] text-suave">
-          Para alterar seus dados ou sua senha, fale com o setor de Eventos.
-        </p>
+        {usuario.perfil === 'SOLICITANTE' && (
+          <p className="px-5 text-[13px] text-suave">
+            Para alterar seus dados ou sua senha, fale com o setor de Eventos.
+          </p>
+        )}
         <div className="flex flex-wrap gap-2 px-5 py-4">
           <LinkBotao to={inicioDoPerfil(usuario)}>Ir para minha área</LinkBotao>
           <Button variante="perigo" onClick={deslogar}>

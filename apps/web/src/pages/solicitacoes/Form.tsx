@@ -225,7 +225,7 @@ function Editor({ opcoes, s }: { opcoes: OpcoesDTO; s: SolicitacaoDTO | null }) 
                 </Field>
               </div>
               <Field id="publicoAlvo" rotulo="Público-alvo" obrigatorio erro={erros.publicoAlvo}>
-                <input id="publicoAlvo" className={classeCampo(erros.publicoAlvo)} value={v.publicoAlvo} onChange={(e) => set('publicoAlvo', e.target.value)} placeholder="Ex.: alunos do 1º ao 4º ano de Engenharia" />
+                <input id="publicoAlvo" className={classeCampo(erros.publicoAlvo)} value={v.publicoAlvo} onChange={(e) => set('publicoAlvo', e.target.value)} placeholder="Ex.: Alunos do 1º ao 4º semestre" />
               </Field>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field id="justificativa" rotulo="Justificativa" obrigatorio erro={erros.justificativa}>
@@ -280,7 +280,7 @@ function Editor({ opcoes, s }: { opcoes: OpcoesDTO; s: SolicitacaoDTO | null }) 
               </Field>
               <fieldset className="grid gap-1.5">
                 <legend className="mb-1 text-[13px] font-bold text-[#444]">
-                  Recursos necessários {ambiente ? `em ${ambiente.nome}` : ''}
+                  Marque os recursos necessários {ambiente ? `em ${ambiente.nome}` : ''}
                 </legend>
                 {!ambiente ? (
                   <p className="text-[13px] text-suave">Escolha o local para ver os recursos disponíveis.</p>

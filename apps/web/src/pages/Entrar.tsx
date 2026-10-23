@@ -53,7 +53,7 @@ export default function Entrar() {
           type="text"
           inputMode="numeric"
           autoComplete="username"
-          placeholder="matrícula"
+          placeholder="Matrícula"
           maxLength={20}
           required
           value={matricula}
@@ -68,7 +68,7 @@ export default function Entrar() {
           id="senha"
           type="password"
           autoComplete="current-password"
-          placeholder="senha"
+          placeholder="Senha"
           required
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
@@ -81,7 +81,7 @@ export default function Entrar() {
             carregando={enviando}
             className="mt-1 px-[18px] text-[15px]"
           >
-            entrar
+            Entrar
           </Button>
         </div>
         <p className="mt-2 text-center text-[13px] text-suave">

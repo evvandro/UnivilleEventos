@@ -37,7 +37,7 @@ export default function Fila() {
       <PageHeader
         titulo="Fila de aprovação"
         migalhas={[{ rotulo: 'Administração' }, { rotulo: 'Fila de aprovação' }]}
-        subtitulo="Aprovar publica o evento na agenda. A aprovação confere de novo se há conflito de local e horário."
+        subtitulo="Aprovar publica o evento na agenda."
       />
       <div className="border-b border-linha">
         <Abas

@@ -41,7 +41,7 @@ export default function AgendaImpressao() {
         <Link to={`/admin/relatorios?${params}`} className={`${classesBotao('padrao')} no-underline`}>
           <Icon nome="voltar" className="size-4" /> Voltar aos relatórios
         </Link>
-        <span className="text-[13px] text-suave">Use “Imprimir” e escolha “Salvar como PDF” para gerar o arquivo.</span>
+        <span className="text-[13px] text-suave">Clique em Imprimir / Salvar PDF para salvar o arquivo</span>
         <Button variante="primario" className="ml-auto" onClick={() => window.print()} disabled={!dados}>
           Imprimir / salvar PDF
         </Button>
