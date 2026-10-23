@@ -1,13 +1,5 @@
 # CLAUDE.md — Univille Eventos
 
-Software Engineering Challenge 2026 (Univille, campus São Bento do Sul). Sistema de Gestão de Eventos Institucionais.
-Fonte da verdade dos requisitos: fotos do caderno em `Docs/` (JPG). O agente `qa-regras-negocio` confere o sistema contra elas. Proposta visual: `docs/proposta.html`.
-
-## Prazos (inegociáveis)
-- 23/10/2026 **18h45**: link do GitHub público postado no grupo. Código e estrutura do banco congelam nesse horário. Atraso = nota zero.
-- Defesa: 5 min. Precisa provar a persistência (criar ou editar, dar F5, o dado continua lá).
-- Rubrica: 30 funcionalidades, 20 banco real, 20 regras de negócio (validações, conflitos, estados, permissões), 15 UI, 15 qualidade técnica/README.
-
 ## Regras do desafio
 - Proibido Lovable/Bolt. ChatGPT/Copilot/Claude são permitidos **com transparência no README**.
 - Componentes genéricos reutilizados precisam ser declarados no README.
