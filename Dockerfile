@@ -12,7 +12,7 @@ COPY packages/shared/package.json packages/shared/
 COPY apps/api/package.json apps/api/
 COPY apps/web/package.json apps/web/
 COPY apps/api/prisma apps/api/prisma
-RUN npm ci
+RUN npm ci --ignore-scripts && npm run db:generate -w @univille/api
 
 # Código e build do front.
 COPY . .
