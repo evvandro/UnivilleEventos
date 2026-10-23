@@ -31,21 +31,29 @@ packages/shared  validações e tipos usados pelos dois
 
 ## Como rodar
 
-Precisa de Node.js 22+ e Docker. Todos os comandos rodam na **pasta raiz do projeto** (`UnivilleEventos/`, onde está este README); não é preciso entrar em `apps/api` nem em `apps/web`.
+Precisa de **Node.js 22+** e **Docker** (Docker Desktop aberto). Funciona em Windows, macOS e Linux.
+
+Todos os comandos rodam na **pasta raiz do projeto** (onde está este README). Não é preciso entrar em `apps/api` nem em `apps/web`.
 
 ```bash
+git clone https://github.com/evvandro/UnivilleEventos.git
 cd UnivilleEventos
-npm install
-cp apps/api/.env.example apps/api/.env
-npm run db:up        # sobe o Postgres
+npm install          # instala tudo e cria apps/api/.env automaticamente
+npm run db:up        # sobe o Postgres no Docker e espera ficar pronto
 npm run db:migrate   # cria as tabelas
 npm run db:seed      # dados de teste (apaga o que existir)
-npm run dev          # sobe API (porta 3333) e front juntos: http://localhost:5173
+npm run dev          # API (porta 3333) + front: http://localhost:5173
 ```
 
-Na primeira vez rode tudo em ordem. Nas próximas basta `npm run db:up` (se o Docker tiver parado) e `npm run dev`.
+Nas próximas vezes basta `npm run db:up` e `npm run dev`. Para parar o banco: `npm run db:down`.
 
 Outros comandos: `npm test`, `npm run typecheck`, `npm run build` e `npm start` (produção, porta 3333).
+
+**Problemas comuns**
+
+- *Porta 5432 ocupada:* já existe outro Postgres rodando na máquina. Pare-o ou mude a porta em `docker-compose.dev.yml` e no `DATABASE_URL` de `apps/api/.env`.
+- *Porta 5173 ocupada:* o Vite usa a próxima livre (5174, 5175...). Veja o endereço que aparece no terminal.
+- *`docker: command not found` ou erro de conexão:* abra o Docker Desktop antes do `npm run db:up`.
 
 ## Banco
 
