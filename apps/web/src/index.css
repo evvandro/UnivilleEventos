@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+/* Identidade Enturma/Univille (ver CLAUDE.md) */
+@theme {
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --color-uni: #00562b;
+  --color-uni-escuro: #003f1f;
+  --color-uni-claro: #e6f0ea;
+  --color-azul: #347bb7;
+  --color-azul-borda: #2e6da4;
+  --color-azul-escuro: #286090;
+  --color-link: #337ab7;
+  --color-campo: #e9f0fe;
+  --color-campo-borda: #a6a7b1;
+  --color-fundo: #ecebe8;
+  --color-linha: #dddddd;
+  --color-texto: #333333;
+  --color-suave: #767676;
+  --color-ok: #3d8b3d;
+  --color-alerta: #e08e0b;
+  --color-perigo: #c9302c;
+  --color-cancelado: #5a6370;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-fundo font-sans text-[15px] leading-relaxed text-texto antialiased;
+  }
+  a {
+    @apply text-link;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-azul;
+  }
+}
+
+@layer components {
+  .campo {
+    @apply h-9 w-full rounded-[1px] border border-campo-borda bg-campo px-3 text-[14px] text-texto placeholder:text-[#8a8a95] focus:border-[#8d8e99] focus:outline-none disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  textarea.campo {
+    @apply h-auto min-h-[84px] py-2;
+  }
+  .campo-erro {
+    @apply border-perigo bg-[#fdf2f2];
+  }
+  .cartao {
+    @apply border border-linha bg-white shadow-[0_1px_2px_rgba(0,0,0,.05)];
+  }
+  /* Marca Univille (PNG branco) recolorida em verde para fundos claros. */
+  .logo-verde {
+    @apply inline-block bg-[#2f6b3a] [print-color-adjust:exact];
+    mask: url('/logo-univille.png') center / contain no-repeat;
+  }
+  .tabela {
+    @apply w-full border-collapse text-[14px];
+  }
+  .tabela th {
+    @apply border-b-2 border-linha px-3 py-2 text-left font-bold whitespace-nowrap;
+  }
+  .tabela td {
+    @apply border-t border-[#ebebeb] px-3 py-2 align-top;
+  }
+  .tabela tbody tr:nth-child(odd) td {
+    @apply bg-[#f9f9f9];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Perfil {
+  SOLICITANTE
+  ADMIN
+}
+
+enum StatusSolicitacao {
+  RASCUNHO
+  AGUARDANDO
+  APROVADO
+  REJEITADO
+  CANCELADO
+}
+
+model Usuario {
+  id           Int               @id @default(autoincrement())
+  /// Login. Por enquanto só dígitos; no futuro virá do sistema acadêmico.
+  matricula    String            @unique
+  nome         String
+  email        String            @unique
+  senhaHash    String            @map("senha_hash")
+  perfil       Perfil
+  ativo        Boolean           @default(true)
+  criadoEm     DateTime          @default(now()) @map("criado_em")
+  solicitacoes Solicitacao[]
+  historicos   HistoricoStatus[]
+
+  @@map("usuario")
+}
+
+model CentroCusto {
+  id        Int     @id @default(autoincrement())
+  codigo    String  @unique
+  descricao String
+  cursos    Curso[]
+
+  @@map("centro_custo")
+}
+
+model Curso {
+  id            Int           @id @default(autoincrement())
+  nome          String        @unique
+  centroCustoId Int           @map("centro_custo_id")
+  centroCusto   CentroCusto   @relation(fields: [centroCustoId], references: [id], onDelete: Restrict)
+  solicitacoes  Solicitacao[]
+
+  @@map("curso")
+}
+
+model Tema {
+  id           Int           @id @default(autoincrement())
+  nome         String        @unique
+  solicitacoes Solicitacao[]
+
+  @@map("tema")
+}
+
+model Ambiente {
+  id           Int               @id @default(autoincrement())
+  nome         String            @unique
+  capacidade   Int?
+  recursos     AmbienteRecurso[]
+  solicitacoes Solicitacao[]
+
+  @@map("ambiente")
+}
+
+model Recurso {
+  id           Int                  @id @default(autoincrement())
+  nome         String               @unique
+  ambientes    AmbienteRecurso[]
+  solicitacoes SolicitacaoRecurso[]
+
+  @@map("recurso")
+}
+
+/// Recursos disponíveis em cada ambiente. Apagar o ambiente remove a associação;
+/// um recurso associado a algum ambiente não pode ser excluído.
+model AmbienteRecurso {
+  ambienteId Int      @map("ambiente_id")
+  recursoId  Int      @map("recurso_id")
+  ambiente   Ambiente @relation(fields: [ambienteId], references: [id], onDelete: Cascade)
+  recurso    Recurso  @relation(fields: [recursoId], references: [id], onDelete: Restrict)
+
+  @@id([ambienteId, recursoId])
+  @@map("ambiente_recurso")
+}
+
+/// inicio/fim guardam a hora "de parede" (sem fuso). A migration adiciona:
+///  - CHECK: fim > inicio, ambos no mesmo dia de `data`
+///  - EXCLUDE: dois APROVADOS não se sobrepõem no mesmo ambiente
+model Solicitacao {
+  id                   Int                  @id @default(autoincrement())
+  status               StatusSolicitacao    @default(RASCUNHO)
+  autorId              Int                  @map("autor_id")
+  autor                Usuario              @relation(fields: [autorId], references: [id], onDelete: Restrict)
+  nome                 String?
+  temaId               Int?                 @map("tema_id")
+  tema                 Tema?                @relation(fields: [temaId], references: [id], onDelete: Restrict)
+  /// Data guardada à parte para o rascunho poder ter data sem horário.
+  data                 DateTime?            @db.Date
+  inicio               DateTime?            @db.Timestamp(0)
+  fim                  DateTime?            @db.Timestamp(0)
+  ambienteId           Int?                 @map("ambiente_id")
+  ambiente             Ambiente?            @relation(fields: [ambienteId], references: [id], onDelete: Restrict)
+  cursoId              Int?                 @map("curso_id")
+  curso                Curso?               @relation(fields: [cursoId], references: [id], onDelete: Restrict)
+  solicitanteNome      String?              @map("solicitante_nome")
+  palestrante          String?
+  publicoAlvo          String?              @map("publico_alvo")
+  justificativa        String?
+  objetivo             String?
+  cerimonial           Boolean?
+  haveraInscricoes     Boolean?             @map("havera_inscricoes")
+  necessitaDeclaracoes Boolean?             @map("necessita_declaracoes")
+  observacoes          String?
+  motivoRejeicao       String?              @map("motivo_rejeicao")
+  enviadoEm            DateTime?            @map("enviado_em")
+  criadoEm             DateTime             @default(now()) @map("criado_em")
+  atualizadoEm         DateTime             @updatedAt @map("atualizado_em")
+  recursos             SolicitacaoRecurso[]
+  historico            HistoricoStatus[]
+
+  @@index([status, inicio])
+  @@index([autorId])
+  @@map("solicitacao")
+}
+
+model SolicitacaoRecurso {
+  solicitacaoId Int         @map("solicitacao_id")
+  recursoId     Int         @map("recurso_id")
+  solicitacao   Solicitacao @relation(fields: [solicitacaoId], references: [id], onDelete: Cascade)
+  recurso       Recurso     @relation(fields: [recursoId], references: [id], onDelete: Restrict)
+
+  @@id([solicitacaoId, recursoId])
+  @@map("solicitacao_recurso")
+}
+
+model HistoricoStatus {
+  id            Int                @id @default(autoincrement())
+  solicitacaoId Int                @map("solicitacao_id")
+  solicitacao   Solicitacao        @relation(fields: [solicitacaoId], references: [id], onDelete: Cascade)
+  de            StatusSolicitacao?
+  para          StatusSolicitacao
+  usuarioId     Int                @map("usuario_id")
+  usuario       Usuario            @relation(fields: [usuarioId], references: [id], onDelete: Restrict)
+  motivo        String?
+  criadoEm      DateTime           @default(now()) @map("criado_em")
+
+  @@index([solicitacaoId])
+  @@map("historico_status")
+}
+
+model Configuracao {
+  chave String @id
+  valor String
+
+  @@map("configuracao")
+}

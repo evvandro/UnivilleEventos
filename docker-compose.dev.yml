@@ -1,0 +1,20 @@
+# Apenas o banco para desenvolvimento local.
+# O Docker completo (api + web) e o deploy na AWS serão configurados depois.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: univille
+      POSTGRES_PASSWORD: univille
+      POSTGRES_DB: univille_eventos
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U univille -d univille_eventos"]
+      interval: 3s
+      retries: 20
+
+volumes:
+  pgdata:
